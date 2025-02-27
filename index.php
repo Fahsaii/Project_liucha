@@ -43,7 +43,7 @@ $isAdmin = $_SESSION['role'] === 'admin';
         <section class="admin-dashboard">
             <h2>ยินดีต้อนรับแอดมิน</h2>
             <p>ที่นี่คุณสามารถจัดการคำสั่งซื้อและข้อมูลต่าง ๆ ได้</p>
-            <!-- ฟังก์ชั่นแอดมิน (เช่นการจัดการคำสั่งซื้อ) -->
+           
         </section>
     <?php else : ?>
         <section id="menu">

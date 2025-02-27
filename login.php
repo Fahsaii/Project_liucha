@@ -7,18 +7,19 @@ if (isset($_SESSION['user'])) {
     exit;
 }
 
-// การตรวจสอบข้อมูลล็อกอิน
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // ข้อมูลล็อกอินของผู้ใช้งาน
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // ข้อมูลที่ใช้ตรวจสอบ (ตัวอย่าง: username และ password สำหรับ admin)
+   
     $users = [
         'admin' => ['password' => 'admin123', 'role' => 'admin'],
         'customer' => ['password' => 'customer123', 'role' => 'customer']
     ];
 
+ 
     if (isset($users[$username]) && $users[$username]['password'] == $password) {
         $_SESSION['user'] = $username;
         $_SESSION['role'] = $users[$username]['role'];
