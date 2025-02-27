@@ -7,6 +7,12 @@ if (!isset($_SESSION['user'])) {
 }
 
 
+
+
+
+
+
+
 $isAdmin = $_SESSION['role'] === 'admin';
 ?>
 
