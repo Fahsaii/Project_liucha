@@ -1,33 +1,30 @@
 <?php
 session_start();
 
-
+// ตรวจสอบสถานะการล็อกอิน
 if (isset($_SESSION['user'])) {
     header('Location: index.php');
     exit;
 }
 
+$error = '';
 
+// การตรวจสอบข้อมูลล็อกอิน
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // ข้อมูลล็อกอินของผู้ใช้งาน
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-   
-    $users = [
-        'admin' => ['password' => 'admin123', 'role' => 'admin'],
-        'customer' => ['password' => 'customer123', 'role' => 'customer']
-    ];
+    // โหลดข้อมูลผู้ใช้จากไฟล์
+    $users = json_decode(file_get_contents('users.json'), true);
 
- 
-    if (isset($users[$username]) && $users[$username]['password'] == $password) {
+    if (isset($users[$username]) && password_verify($password, $users[$username]['password'])) {
         $_SESSION['user'] = $username;
         $_SESSION['role'] = $users[$username]['role'];
-        header('Location: index.php');
+        header('Location: index.php'); // ไปยังหน้า index.php หลังจากล็อกอิน
         exit;
     } else {
         $error = 'ข้อมูลล็อกอินไม่ถูกต้อง';
-    }
+    } 
 }
 ?>
 
@@ -42,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <section class="login-form">
         <h2>เข้าสู่ระบบ</h2>
-        <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+        <?php if (!empty($error)) { echo "<p class='error'>$error</p>"; } ?>
         <form action="login.php" method="POST">
             <label for="username">ชื่อผู้ใช้:</label>
             <input type="text" name="username" id="username" required>
@@ -52,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             <button type="submit">เข้าสู่ระบบ</button>
         </form>
+        <p>ยังไม่มีบัญชีผู้ใช้? <a href="register.php">สมัครสมาชิก</a></p>
     </section>
 </body>
 </html>
