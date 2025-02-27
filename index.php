@@ -5,14 +5,6 @@ if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit;
 }
-
-
-
-
-
-
-
-
 $isAdmin = $_SESSION['role'] === 'admin';
 ?>
 
