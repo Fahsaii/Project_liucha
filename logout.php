@@ -1,10 +1,5 @@
-<?php 
-    session_start();
-    require_once('database/db.php');
-
-    // check -> logout
-    setcookie('user', '', time() - 3600, "/");
-    setcookie('cart', 0, time() + (10 * 365 * 24 * 60 * 3600));
-    unset($_SESSION['autoLOG']);
-    header("location: home.php");
-?>
+<?php
+session_start();
+session_destroy(); // เคลียร์ session ทั้งหมด
+header("Location: index.php"); // กลับไปหน้าแรก
+exit();
