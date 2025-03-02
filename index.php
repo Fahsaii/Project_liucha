@@ -1,27 +1,27 @@
 <?php
 session_start();
 
-// การตั้งค่าการเชื่อมต่อฐานข้อมูล
+
 $servername = "localhost";
-$username = "root"; // ค่าเริ่มต้นของ XAMPP
+$username = "root"; 
 $password = ""; 
 $dbname = "liucha"; 
 
-// เชื่อมต่อกับฐานข้อมูล
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// ตรวจสอบการเชื่อมต่อ
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// คำสั่ง SQL เพื่อดึงข้อมูลสินค้าทั้งหมดจากตาราง products
+
 $sql = "SELECT id, name, price FROM products";
 $result = $conn->query($sql);
 
-// ตรวจสอบว่ามีข้อมูลหรือไม่
+
 if ($result->num_rows > 0) {
-    // มีข้อมูล
+   
     $products = [];
     while($row = $result->fetch_assoc()) {
         $products[] = $row;
@@ -30,10 +30,10 @@ if ($result->num_rows > 0) {
     $products = [];
 }
 
-// ปิดการเชื่อมต่อฐานข้อมูล
+
 $conn->close();
 
-// เช็คว่าเป็นผู้ดูแลระบบหรือไม่
+
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
 
