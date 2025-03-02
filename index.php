@@ -1,32 +1,42 @@
 <?php
 session_start();
 
-$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
-if (isset($_POST['add_to_cart'])) {
-    $item = [
-        'name' => $_POST['name'],
-        'price' => $_POST['price'],
-        'quantity' => 1 // จำนวนเริ่มต้น
-    ];
+// การตั้งค่าการเชื่อมต่อฐานข้อมูล
+$servername = "localhost";
+$username = "root"; // ค่าเริ่มต้นของ XAMPP
+$password = ""; 
+$dbname = "liucha"; 
 
-    if (isset($_SESSION['cart'])) {
-        // เช็คถ้ามีสินค้าซ้ำในตะกร้า
-        $found = false;
-        foreach ($_SESSION['cart'] as &$cart_item) {
-            if ($cart_item['name'] === $item['name']) {
-                $cart_item['quantity'] += 1; // เพิ่มจำนวนสินค้าถ้ามีซ้ำ
-                $found = true;
-                break;
-            }
-        }
-        if (!$found) {
-            $_SESSION['cart'][] = $item; // เพิ่มสินค้าลงตะกร้าใหม่
-        }
-    } else {
-        $_SESSION['cart'] = [$item]; // สร้างตะกร้าขึ้นมาใหม่
-    }
+// เชื่อมต่อกับฐานข้อมูล
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// ตรวจสอบการเชื่อมต่อ
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
+
+// คำสั่ง SQL เพื่อดึงข้อมูลสินค้าทั้งหมดจากตาราง products
+$sql = "SELECT id, name, price FROM products";
+$result = $conn->query($sql);
+
+// ตรวจสอบว่ามีข้อมูลหรือไม่
+if ($result->num_rows > 0) {
+    // มีข้อมูล
+    $products = [];
+    while($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+} else {
+    $products = [];
+}
+
+// ปิดการเชื่อมต่อฐานข้อมูล
+$conn->close();
+
+// เช็คว่าเป็นผู้ดูแลระบบหรือไม่
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="th">
@@ -72,7 +82,7 @@ if (isset($_POST['add_to_cart'])) {
         <section id="menu">
             <h2>เมนูของเรา</h2>
             <div class="menu-item">
-                    <img src="image/chanom.png" alt="ชานมไข่มุก"  width= "100px" hight= "100px" >
+                    <img src="image/chanom.png" alt="ชานมไข่มุก"  style="width: 150px; height: 150px;" >
                     <p>ชานมไข่มุก</p>
                     <p>ราคา: ฿45</p>
                     <form method="POST" action="cart.php">
@@ -82,7 +92,66 @@ if (isset($_POST['add_to_cart'])) {
                     </form>
             </div>
             <div class="menu-item"  >
-                <img src="image/chanom.png" alt="ชานมไข่มุก" >
+                <img src="image/chanom.png" alt="ชานมไข่มุก" style="width: 150px; height: 150px;" >
+                <p>ชานมไข่มุก</p>
+                <p>ราคา: ฿45</p>
+                <form method="POST" action="cart.php">
+                    <input type="hidden" name="name" value="ชานมไข่มุก">
+                    <input type="hidden" name="price" value="45">
+                    <button type="submit" name="add_to_cart">ใส่ตะกร้า</button>
+                </form>
+            </div>
+            <div class="menu-item">
+                    <img src="image/chanom.png" alt="ชานมไข่มุก"  style="width: 150px; height: 150px;" >
+                    <p>ชานมไข่มุก</p>
+                    <p>ราคา: ฿45</p>
+                    <form method="POST" action="cart.php">
+                        <input type="hidden" name="name" value="ชานมไข่มุก">
+                        <input type="hidden" name="price" value="45">
+                        <button type="submit" name="add_to_cart">ใส่ตะกร้า</button>
+                    </form>
+            </div>
+            <div class="menu-item"  >
+                <img src="image/chanom.png" alt="ชานมไข่มุก" style="width: 150px; height: 150px;" >
+                <p>ชานมไข่มุก</p>
+                <p>ราคา: ฿45</p>
+                <form method="POST" action="cart.php">
+                    <input type="hidden" name="name" value="ชานมไข่มุก">
+                    <input type="hidden" name="price" value="45">
+                    <button type="submit" name="add_to_cart">ใส่ตะกร้า</button>
+                </form>
+            </div>
+            <div class="menu-item">
+                    <img src="image/chanom.png" alt="ชานมไข่มุก"  style="width: 150px; height: 150px;" >
+                    <p>ชานมไข่มุก</p>
+                    <p>ราคา: ฿45</p>
+                    <form method="POST" action="cart.php">
+                        <input type="hidden" name="name" value="ชานมไข่มุก">
+                        <input type="hidden" name="price" value="45">
+                        <button type="submit" name="add_to_cart">ใส่ตะกร้า</button>
+                    </form>
+            </div>
+            <div class="menu-item"  >
+                <img src="image/chanom.png" alt="ชานมไข่มุก" style="width: 150px; height: 150px;" >
+                <p>ชานมไข่มุก</p>
+                <p>ราคา: ฿45</p>
+                <form method="POST" action="cart.php">
+                    <input type="hidden" name="name" value="ชานมไข่มุก">
+                    <input type="hidden" name="price" value="45">
+                    <button type="submit" name="add_to_cart">ใส่ตะกร้า</button>
+                </form>
+            </div><div class="menu-item">
+                    <img src="image/chanom.png" alt="ชานมไข่มุก"  style="width: 150px; height: 150px;" >
+                    <p>ชานมไข่มุก</p>
+                    <p>ราคา: ฿45</p>
+                    <form method="POST" action="cart.php">
+                        <input type="hidden" name="name" value="ชานมไข่มุก">
+                        <input type="hidden" name="price" value="45">
+                        <button type="submit" name="add_to_cart">ใส่ตะกร้า</button>
+                    </form>
+            </div>
+            <div class="menu-item"  >
+                <img src="image/chanom.png" alt="ชานมไข่มุก" style="width: 150px; height: 150px;" >
                 <p>ชานมไข่มุก</p>
                 <p>ราคา: ฿45</p>
                 <form method="POST" action="cart.php">

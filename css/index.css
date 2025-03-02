@@ -71,17 +71,24 @@ section {
 }
 
 /* เมนู */
+/* สำหรับการตั้งค่าผู้จัดการเมนู */
+/* สำหรับการตั้งค่าผู้จัดการเมนู */
 #menu {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px;
+    padding: 30px;
+    background-color: #f4f4f9;
+}
+
+#menu .menu-container {
+    display: flex;             /* ใช้ Flexbox */
+    flex-direction: column;    /* ตั้งค่าให้เมนูจัดเรียงในแนวตั้ง */
+    align-items: center;       /* จัดตำแหน่งเมนูทั้งหมดไว้ที่กลาง */
+    gap: 20px;                 /* เว้นระยะห่างระหว่างเมนู */
 }
 
 #menu .menu-item {
-    width: 30%;
+    width: 80%;                /* กำหนดความกว้างของเมนูให้พอดี */
     text-align: center;
-    margin-bottom: 20px;
+    margin: 10px 0;
     background-color: #fff;
     border-radius: 8px;
     padding: 20px;
@@ -89,7 +96,8 @@ section {
 }
 
 #menu .menu-item img {
-    width: 100px;
+    width: 100%;               /* ขยายรูปให้เต็มพื้นที่ */
+    height: auto;              /* รักษาสัดส่วนของรูป */
     border-radius: 8px;
 }
 
@@ -101,44 +109,17 @@ section {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 10px;
-    font-size: 16px;
 }
 
- .menu-item button:hover {
-    background-color: #cc5500;
-}
-
-.menu-item img {
-    width: 100px;
-    max-width: 150px;  
-    height: auto;
-    object-fit: cover;
-}
-
-
-/* ฟุตเตอร์ */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 20px 10px;
-}
-
-footer p {
-    margin: 0;
-    font-size: 14px;
-    color: #ccc;
-}
-
-/* ปรับขนาดเมนูเมื่อหน้าจอเล็ก */
-@media (max-width: 768px) {
+/* ปรับให้เหมาะกับหน้าจอขนาดเล็ก */
+@media screen and (max-width: 768px) {
     #menu .menu-item {
-        width: 45%;  /* ปรับขนาดเมื่อหน้าจอเล็กลง */
+        width: 95%;             /* ให้กว้างขึ้นเมื่อหน้าจอเล็กลง */
     }
 }
 
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
     #menu .menu-item {
-        width: 100%;  /* เปลี่ยนให้เต็มหน้าจอเมื่อหน้าจอเล็กที่สุด */
+        width: 100%;            /* ใช้ความกว้าง 100% เมื่อหน้าจอเล็กมาก */
     }
 }

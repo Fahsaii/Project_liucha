@@ -1,44 +1,59 @@
 <?php
 session_start();
 
-// ตรวจสอบว่าเมื่อสมัครแล้วให้รีไดเรกไปที่หน้า login.php
-if (isset($_SESSION['user'])) {
-    header('Location: login.php');
-    exit;
+// เชื่อมต่อฐานข้อมูล
+$servername = "localhost";
+$username = "root"; // ค่าเริ่มต้นของ XAMPP
+$password = ""; // ค่าเริ่มต้นของ XAMPP
+$dbname = "liucha"; // ชื่อฐานข้อมูล
+
+// สร้างการเชื่อมต่อ
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// ตรวจสอบการเชื่อมต่อ
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-$error = '';
-// ตรวจสอบการสมัครสมาชิกเมื่อฟอร์มถูกส่ง
+// ตรวจสอบการส่งข้อมูลจากฟอร์ม
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
+    // รับข้อมูลจากฟอร์ม
+    $name = $_POST['name'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
 
-    // ตรวจสอบว่ารหัสผ่านและยืนยันรหัสผ่านตรงกันหรือไม่
-    if ($password != $confirmPassword) {
-        $error = 'รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน';
+    // ตรวจสอบว่ารหัสผ่านและการยืนยันรหัสผ่านตรงกันหรือไม่
+    if ($password !== $confirmPassword) {
+        $error = "รหัสผ่านและการยืนยันรหัสผ่านไม่ตรงกัน";
     } else {
-        // เก็บข้อมูลลงไฟล์ (หากใช้ฐานข้อมูลให้ทำการบันทึกในฐานข้อมูลแทน)
-        $users = json_decode(file_get_contents('users.json'), true);
+        // เข้ารหัสรหัสผ่าน
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        if (isset($users[$username])) {
-            $error = 'ชื่อผู้ใช้นี้มีผู้ใช้งานแล้ว';
+        // หารหัสลูกค้าถัดไป
+        $result = $conn->query("SELECT MAX(CAST(SUBSTRING(CustomerID, 2) AS UNSIGNED)) AS max_id FROM customer");
+        $row = $result->fetch_assoc();
+        $max_id = $row['max_id'];
+
+        // กำหนดรหัสลูกค้าเป็น 'C001' ถ้าไม่มีข้อมูล
+        $new_customer_id = 'C' . str_pad(($max_id + 1), 3, '0', STR_PAD_LEFT);
+
+        // คำสั่ง SQL เพื่อบันทึกข้อมูลผู้ใช้ใหม่ลงในตาราง customer
+        $sql = "INSERT INTO customer (CustomerID, Name, Password, Phone, Email) 
+                VALUES ('$new_customer_id', '$name', '$hashed_password', '$phone', '$email')";
+
+        if ($conn->query($sql) === TRUE) {
+            // ถ้าบันทึกสำเร็จ, redirect ไปที่หน้า login
+            header("Location: login.php");
+            exit();
         } else {
-            // บันทึกข้อมูลผู้ใช้ใหม่
-            $users[$username] = [
-                'password' => password_hash($password, PASSWORD_DEFAULT),
-                'role' => 'customer', // กำหนดเป็น customer โดยค่าเริ่มต้น
-            ];
-
-            // บันทึกข้อมูลผู้ใช้ลงในไฟล์
-            file_put_contents('users.json', json_encode($users, JSON_PRETTY_PRINT));
-
-            // รีไดเรกไปที่หน้า login.php
-            header('Location: login.php');
-            exit;
+            echo "Error: " . $sql . "<br>" . $conn->error;
         }
     }
 }
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -54,8 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>สมัครสมาชิก</h2>
         <?php if (!empty($error)) { echo "<p class='error'>$error</p>"; } ?>
         <form action="register.php" method="POST">
-            <label for="username">ชื่อผู้ใช้:</label>
-            <input type="text" name="username" id="username" required>
+            <label for="name">ชื่อ:</label>
+            <input type="text" name="name" id="name" required>
+
+            <label for="email">อีเมล:</label>
+            <input type="email" name="email" id="email" required>
+            
+            <label for="phone">เบอร์โทร:</label>
+            <input type="text" name="phone" id="phone" required>
             
             <label for="password">รหัสผ่าน:</label>
             <input type="password" name="password" id="password" required>
