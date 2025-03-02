@@ -1,9 +1,10 @@
 <?php
 session_start();
+require_once('database/db.php');
 
 // ตรวจสอบสถานะการล็อกอิน
 if (isset($_SESSION['user'])) {
-    header('Location: index.php');
+    header('Location: home.php');
     exit;
 }
 
@@ -34,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เข้าสู่ระบบ</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
     <section class="login-form">

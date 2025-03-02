@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
+    header('Location: home.php');
     exit;
 }
 $isAdmin = $_SESSION['role'] === 'admin';
@@ -14,7 +14,7 @@ $isAdmin = $_SESSION['role'] === 'admin';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liu Cha - ร้านชานมไข่มุก</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
     <header>
