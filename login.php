@@ -1,31 +1,29 @@
 <?php
 session_start();
-require_once('database/db.php');
+include 'database/db.php'; // ตรวจสอบว่าเชื่อมต่อฐานข้อมูลถูกต้อง
 
-// ตรวจสอบสถานะการล็อกอิน
-if (isset($_SESSION['user'])) {
-    header('Location: home.php');
-    exit;
-}
-
-$error = '';
-
-// การตรวจสอบข้อมูลล็อกอิน
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // โหลดข้อมูลผู้ใช้จากไฟล์
-    $users = json_decode(file_get_contents('users.json'), true);
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
+    $stmt->execute(['username' => $username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (isset($users[$username]) && password_verify($password, $users[$username]['password'])) {
-        $_SESSION['user'] = $username;
-        $_SESSION['role'] = $users[$username]['role'];
-        header('Location: index.php'); // ไปยังหน้า index.php หลังจากล็อกอิน
-        exit;
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['user'] = $user['username'];
+        $_SESSION['role'] = $user['role']; // ถ้ามี role ให้ใช้
+        
+        // 🔹 ตรวจสอบว่า session ถูกสร้างหรือไม่
+        if (isset($_SESSION['user'])) {
+            header("Location: home.php");
+            exit();
+        } else {
+            echo "ไม่สามารถสร้าง session ได้";
+        }
     } else {
-        $error = 'ข้อมูลล็อกอินไม่ถูกต้อง';
-    } 
+        echo "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!";
+    }
 }
 ?>
 
@@ -35,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เข้าสู่ระบบ</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <section class="login-form">

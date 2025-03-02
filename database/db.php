@@ -1,13 +1,13 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "project";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "liucha"; // ตรวจสอบว่าชื่อฐานข้อมูลถูกต้อง
 
-    try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-        die("Connection failed: " . $e->getMessage());
-    }
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
 ?>

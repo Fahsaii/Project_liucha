@@ -1,0 +1,60 @@
+/* order-form */
+.order-form {
+    padding: 30px;
+    background-color: #fff;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-form h2 {
+    font-size: 2em;
+    text-align: center;
+}
+
+.order-form table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+}
+
+.order-form table th, .order-form table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.order-form table th {
+    background-color: #f2f2f2;
+}
+
+.order-form .form-group {
+    margin-bottom: 15px;
+}
+
+.order-form .form-group label {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.order-form .form-group input, .order-form .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.order-form .form-group button {
+    background-color: #ff6347;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.order-form .form-group button:hover {
+    background-color: #e5533d;
+}
