@@ -7,27 +7,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     try {
-        // ✅ ค้นหาในตาราง admin ก่อน
+        // ตรวจสอบว่าชื่อผู้ใช้เป็นแอดมินหรือไม่
         $stmt = $conn->prepare("SELECT * FROM admin WHERE Name = :username");
         $stmt->execute(['username' => $username]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($admin && $password === $admin['Password']) {
             $_SESSION['user'] = $admin['Name'];
-            $_SESSION['role'] = 'admin';
-            header("Location: index.php"); // ✅ ส่งไปที่หน้า Home
+            $_SESSION['role'] = 'admin'; // กำหนด role เป็น admin
+            header("Location: index.php"); // ส่งไปที่หน้าหลัก
             exit();
         }
 
-        // ✅ ค้นหาในตาราง customer ถ้าไม่ใช่ admin
+        // ตรวจสอบว่าผู้ใช้เป็นลูกค้าหรือไม่
         $stmt = $conn->prepare("SELECT * FROM customer WHERE Name = :username");
         $stmt->execute(['username' => $username]);
         $customer = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($customer && $password === $customer['Password']) {
             $_SESSION['user'] = $customer['Name'];
-            $_SESSION['role'] = 'customer';
-            header("Location: index.php"); // ✅ ส่งไปที่หน้า Home
+            $_SESSION['role'] = 'customer'; // กำหนด role เป็น customer
+            header("Location: index.php"); // ส่งไปที่หน้าหลัก
             exit();
         }
 

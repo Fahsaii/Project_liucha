@@ -37,21 +37,20 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 <body>       
     <header>
         <div class="logo">
-    <img src="image/logo_liucha.png" alt="Liu Cha">
-    <?php if (isset($_SESSION['user'])): ?> 
-        <!-- ถ้า login แล้ว แสดงชื่อผู้ใช้และปุ่ม Logout -->
-        <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> | 
-        <a href="logout.php">Logout</a> 
-        <!-- แสดงเมนูสำหรับ admin -->
-        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-            <a href="admin_panel.php">Admin Panel</a>
-        <?php endif; ?>
-    <?php else: ?>
-        <!-- ถ้ายังไม่ได้ login แสดงปุ่ม Login -->
-        <a href="login.php">Login</a>
-    <?php endif; ?>
-</div>
-
+            <img src="image/logo_liucha.png" alt="Liu Cha">
+            <?php if (isset($_SESSION['user'])): ?> 
+                <!-- ถ้า login แล้ว แสดงชื่อผู้ใช้และปุ่ม Logout -->
+                <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> | 
+                <a href="logout.php">Logout</a> 
+                <!-- แสดงเมนูสำหรับ admin -->
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                    <a href="admin_panel.php">Admin Panel</a>
+                <?php endif; ?>
+            <?php else: ?>
+                <!-- ถ้ายังไม่ได้ login แสดงปุ่ม Login -->
+                <a href="login.php">Login</a>
+            <?php endif; ?>
+        </div>
 
         <nav>
             <ul>
