@@ -12,7 +12,7 @@ $total = 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ชำระเงิน</title>
-    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/payment.css">
 </head>
 <body>
@@ -34,15 +34,14 @@ $total = 0;
             <h2>ที่อยู่จัดส่ง</h2>
             <form method="POST" action="checkout.php">
                 <input type="text" name="name" placeholder="ชื่อ - นามสกุล" required>
+                <input type="text" name="tel" placeholder="เบอร์โทรศัพท์" required>
                 <input type="text" name="address1" placeholder="ที่อยู่ 1" required>
-                <input type="text" name="address2" placeholder="อาคาร/ชั้น/ห้อง">
-                <input type="text" name="city" placeholder="เมือง" required>
-                <select name="state" required>
-                    <option>เลือกจังหวัด</option>
-                    <option>กรุงเทพมหานคร</option>
-                    <option>เชียงใหม่</option>
+                <input type="text" name="address2" placeholder="ที่อยู่ 2" required>
+                <input type="text" name="address3" placeholder="อาคาร/ชั้น/ห้อง">
+                
+                
                 </select>
-                <input type="text" name="zip" placeholder="รหัสไปรษณีย์" required>
+                
 
                 <h2>ช่องทางการชำระเงิน</h2>
                 <div class="payment-method">

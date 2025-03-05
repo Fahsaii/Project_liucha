@@ -1,5 +1,5 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Mitr', sans-serif;
     background-color: #f9e7d2;
     margin: 0;
     padding: 0;
@@ -10,6 +10,7 @@ body {
     overflow: hidden;
     position: relative;
 }
+* { font-family: 'Mitr', sans-serif !important; }
 
 /* เพิ่มหลายแก้วตกลงมา */
 @keyframes bubble-fall {
