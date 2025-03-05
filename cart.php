@@ -55,9 +55,9 @@ $total = 0;
                             <td><?= htmlspecialchars($item['name']) ?></td>
                             <td><?= number_format($item['price'], 2) ?> บาท</td>
                             <td>
-                                <a href="update_cart.php?action=decrease&name=<?= urlencode($item['name']) ?>">➖</a>
+                                <a href="update_cart.php?action=decrease&name=<?= urlencode($item['name']) ?>"> - </a>
                                 <?= $item['quantity'] ?>
-                                <a href="update_cart.php?action=increase&name=<?= urlencode($item['name']) ?>">➕</a>
+                                <a href="update_cart.php?action=increase&name=<?= urlencode($item['name']) ?>"> + </a>
                             </td>
                             <td><?= number_format($subtotal, 2) ?> บาท</td>
                             <td>
