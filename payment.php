@@ -74,10 +74,19 @@ $total = 0;
             <?php if (!empty($cart)): ?>
                 <?php foreach ($cart as $item): ?>
                     <?php 
-                    $subtotal = $item['price'] * $item['quantity']; 
-                    $total += $subtotal; 
+                    $subtotal = $item['price'] * $item['quantity'];
+                    $total += $subtotal;
                     ?>
                     <p><?= htmlspecialchars($item['name']) ?> x<?= $item['quantity'] ?> = <?= number_format($subtotal, 2) ?> บาท</p>
+
+                    <?php if (!empty($item['toppings'])): ?>
+                        <ul>
+                            <?php foreach ($item['toppings'] as $topping): ?>
+                                <li>+ <?= htmlspecialchars($topping['name']) ?> (<?= number_format($topping['price'], 2) ?> บาท)</li>
+                                <?php $total += $topping['price']; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p>ไม่มีสินค้าในตะกร้า</p>
@@ -88,7 +97,6 @@ $total = 0;
             <hr>
             <h3>ยอดรวมทั้งหมด: <?= number_format($total + $shipping, 2) ?> บาท</h3>
         </div>
-    </div>
 
 </body>
 </html>

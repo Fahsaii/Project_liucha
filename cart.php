@@ -72,8 +72,7 @@ $total = 0;
                                     <select name="topping">
                                         <option value="">  เลือก Topping  </option>
                                         <?php 
-                                        $stmt = $conn->prepare("SELECT DISTINCT Name FROM topping WHERE MenuID = ?");
-                                        $stmt->bind_param("s", $item['menu_id']);
+                                        $stmt = $conn->prepare("SELECT DISTINCT Name FROM topping");
                                         $stmt->execute();
                                         $result = $stmt->get_result();
                                         while ($topping = $result->fetch_assoc()): ?>
@@ -82,8 +81,14 @@ $total = 0;
                                     </select>
                                     <button type="submit">เพิ่ม</button>
                                 </form>
+                                <?php if (!empty($item['toppings'])): ?>
+                                    <ul>
+                                        <?php foreach ($item['toppings'] as $topping): ?>
+                                            <li><?= htmlspecialchars($topping['name']) ?> (+<?= number_format($topping['price'], 2) ?> บาท)</li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                <?php endif; ?>
                             </td>
-
                             <td>
                                 <a href="remove_item.php?key=<?= $key ?>" style="color:red;">ลบ</a>
                             </td>
@@ -99,12 +104,35 @@ $total = 0;
 
         <div class="order-summary">
             <h2>สรุปคำสั่งซื้อ</h2>
-            <p>ราคารวมสินค้า: <span><?= number_format($total, 2) ?> บาท</span></p>
-            <p>ค่าจัดส่ง: <span>35 บาท</span></p>
+            <?php if (!empty($cart)): ?>
+                <?php foreach ($cart as $item): ?>
+                    <?php 
+                    $subtotal = $item['price'] * $item['quantity'];
+                    $total += $subtotal;
+                    ?>
+                    <p><?= htmlspecialchars($item['name']) ?> x<?= $item['quantity'] ?> = <?= number_format($subtotal, 2) ?> บาท</p>
+
+                    <!-- แสดง topping ที่เลือก -->
+                    <?php if (!empty($item['toppings'])): ?>
+                        <ul>
+                            <?php foreach ($item['toppings'] as $topping): ?>
+                                <li>+ <?= htmlspecialchars($topping['name']) ?> (<?= number_format($topping['price'], 2) ?> บาท)</li>
+                                <?php $total += $topping['price']; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>ไม่มีสินค้าในตะกร้า</p>
+            <?php endif; ?>
+            
+            <p>ราคารวมสินค้า: <?= number_format($total, 2) ?> บาท</p>
+            <p>ค่าจัดส่ง: 35 บาท</p>
             <hr>
-            <p><b>ยอดรวมทั้งหมด: <span><?= number_format($total + 35, 2) ?> บาท</span></b></p>
+            <h3>ยอดรวมทั้งหมด: <?= number_format($total + 35, 2) ?> บาท</h3>
             <button class="checkout" onclick="window.location.href='payment.php'">สั่งซื้อสินค้า</button>
         </div>
+
     </div>
 </body>
 </html>
