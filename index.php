@@ -62,7 +62,6 @@
                         </ul>
                     </li>
                     <li><a href="cart.php">CART</a></li>
-                    <li><a href="#about">ABOUT</a></li>
                     <li><a href="#contact">CONTACT</a></li>
                 </ul>
             </nav>
