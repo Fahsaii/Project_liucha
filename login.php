@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($admin && $password === $admin['Password']) {
             $_SESSION['user'] = $admin['Name'];
             $_SESSION['role'] = 'admin';
-            header("Location: admin_panel.php"); // ✅ ส่งไปที่หน้าจัดการข้อมูล
+            header("Location: index.php"); // ✅ ส่งไปที่หน้า Home
             exit();
         }
 
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($customer && $password === $customer['Password']) {
             $_SESSION['user'] = $customer['Name'];
             $_SESSION['role'] = 'customer';
-            header("Location: index.php"); // ✅ ส่งไปที่หน้าลูกค้า
+            header("Location: index.php"); // ✅ ส่งไปที่หน้า Home
             exit();
         }
 
@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "เกิดข้อผิดพลาด: " . $e->getMessage();
     }
 }
+
 ?>
 
 

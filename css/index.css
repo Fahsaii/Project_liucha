@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 html {
     scroll-behavior: smooth;
 }
 
 * {
-    
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -178,6 +180,35 @@ h3 {
 .add-btn:hover {
     background-color: #a07d56;
 }
+.topping-title {
+    font-weight: bold;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    text-align: center;
+    font-size: 50px;
+    color: #c99b56;
+}
+.topping-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    
+}
+.topping-item {
+    width: 500px;
+    background: white;
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    height: 620px;
+}
+.topping-item img {
+    width: 500px;
+    height: auto;
+    
+}
+
 
 .menunew-title {
     font-weight: bold;

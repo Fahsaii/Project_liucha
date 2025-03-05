@@ -1,5 +1,13 @@
+<?php
+session_start();
+
+$cart = $_SESSION['cart'] ?? []; // ดึงข้อมูลตะกร้า
+$shipping = 35; // ค่าจัดส่ง
+$total = 0;
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

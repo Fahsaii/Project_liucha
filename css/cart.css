@@ -1,4 +1,7 @@
-/* โทนสีและฟอนต์ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+*{
+    font-family: 'Poppins', sans-serif;
+} 
 body {
     font-family: 'Mali', cursive;
     background-color: #f9e7d2;
