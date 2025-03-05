@@ -12,30 +12,35 @@ body {
     position: relative;
 }
 
-/* แก้วชานมตกลงมา */
+/* เพิ่มหลายแก้วตกลงมา */
 @keyframes bubble-fall {
     0% {
-        transform: translateY(-100px) rotate(0deg);
+        transform: translateY(-150px) rotate(0deg);
         opacity: 0;
     }
-
     100% {
-        transform: translateY(100vh) rotate(360deg);
+        transform: translateY(110vh) rotate(360deg);
         opacity: 1;
     }
 }
 
 .bubble-tea {
     position: absolute;
-    top: -50px;
+    top: -60px;
     width: 50px;
     height: 50px;
     background: url('https://cdn-icons-png.flaticon.com/512/924/924514.png') no-repeat center/contain;
-    animation: bubble-fall 5s linear infinite;
-    opacity: 0;
+    animation: bubble-fall 6s linear infinite;
+    opacity: 0.7;
     z-index: -1;
-    /* แก้วชานมอยู่ด้านหลังฟอร์ม */
 }
+
+/* เพิ่มตำแหน่งสุ่มสำหรับหลายแก้ว */
+.bubble-tea:nth-child(1) { left: 10%; animation-delay: 0s; }
+.bubble-tea:nth-child(2) { left: 30%; animation-delay: 1.5s; }
+.bubble-tea:nth-child(3) { left: 50%; animation-delay: 3s; }
+.bubble-tea:nth-child(4) { left: 70%; animation-delay: 4.5s; }
+.bubble-tea:nth-child(5) { left: 90%; animation-delay: 6s; }
 
 /* สไตล์ฟอร์มเข้าสู่ระบบ */
 .login-form {

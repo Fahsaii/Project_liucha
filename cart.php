@@ -14,7 +14,8 @@ $total = 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ตะกร้าสินค้า</title>
     <link rel="stylesheet" href="css/cart.css">
-    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
 </head>
 <body>
     <div class="bubble-tea"></div>

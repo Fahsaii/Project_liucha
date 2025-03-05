@@ -48,6 +48,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
     <div class="login-form">
         <h2>เข้าสู่ระบบ</h2>
         <?php if (!empty($error)) { echo "<p class='error'>$error</p>"; } ?>
