@@ -21,10 +21,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     exit();
 }
 
-// อัปเดตข้อมูลเมนู
+// อัปเดตข้อมูลเมนู (รวมถึงการอัปโหลดรูปภาพ)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
-    $stmt = $conn->prepare("UPDATE menu SET name = ?, price = ? WHERE MenuID = ?");
-    $stmt->execute([$_POST['name'], $_POST['price'], $_POST['menuID']]);
+    $menuID = $_POST['menuID'];
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+
+    // อัปโหลดไฟล์รูปภาพ
+    $image = '';
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $image = 'images/' . basename($_FILES['image']['name']);
+        move_uploaded_file($_FILES['image']['tmp_name'], $image); // อัปโหลดไฟล์ไปยังโฟลเดอร์ images/
+    }
+
+    // อัปเดตข้อมูลเมนูในฐานข้อมูล
+    $stmt = $conn->prepare("UPDATE menu SET name = ?, price = ?, image = ? WHERE MenuID = ?");
+    $stmt->execute([$name, $price, $image, $menuID]);
+
     header("Location: admin_panel.php");
     exit();
 }
@@ -108,14 +121,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
             <th>MenuID</th>
             <th>Name</th>
             <th>Price</th>
+            <th>Image</th>
             <th>Action</th>
         </tr>
         <?php foreach ($menus as $menu): ?>
         <tr>
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <td><?= htmlspecialchars($menu['MenuID']) ?></td>
                 <td><input type="text" name="name" value="<?= htmlspecialchars($menu['name']) ?>"></td>
                 <td><input type="number" name="price" value="<?= $menu['price'] ?>"> บาท</td>
+                <td>
+                    <img src="<?= htmlspecialchars($menu['image']) ?>" alt="Menu Image" width="100">
+                    <input type="file" name="image">
+                </td>
                 <td>
                     <input type="hidden" name="menuID" value="<?= $menu['MenuID'] ?>">
                     <button type="submit" name="update_menu">บันทึก</button>

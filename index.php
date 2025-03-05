@@ -39,9 +39,11 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <div class="logo">
             <img src="image/logo_liucha.png" alt="Liu Cha">
             <?php if (isset($_SESSION['user'])): ?> 
+                <!-- ถ้า login แล้ว แสดงชื่อผู้ใช้และปุ่ม Logout -->
                 <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> | 
                 <a href="logout.php">Logout</a>
             <?php else: ?>
+                <!-- ถ้ายังไม่ได้ login แสดงปุ่ม Login -->
                 <a href="login.php">Login</a>
             <?php endif; ?>
         </div>
@@ -56,7 +58,7 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                 </li>
                 <li><a href="#contact">CONTACT</a></li>
                 <?php if ($isAdmin): ?>
-                    <!-- ปุ่มสำหรับ Admin -->
+                    <!-- แสดงปุ่ม Admin Panel เฉพาะเมื่อเป็นแอดมิน -->
                     <li><a href="admin_panel.php">Admin Panel</a></li>
                 <?php endif; ?>
             </ul>
