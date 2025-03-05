@@ -40,25 +40,23 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <div class="logo">
             <img src="image/logo_liucha.png" alt="Liu Cha">
             <?php if (isset($_SESSION['user'])): ?> 
-                <span>Welcome  <?= htmlspecialchars($_SESSION['user']); ?> </span> | 
+                <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> | 
                 <a href="logout.php">Logout</a>
-                <?php if ($isAdmin): ?>
-                    | <a href="admin_panel.php" class="admin-btn">🔧 Admin Panel</a>
-                <?php endif; ?>
             <?php else: ?>
                 <a href="login.php">Login</a>
             <?php endif; ?>
         </div>
         <nav>
             <ul>
-                <li><a href="index.php">HOME</a></li>
+                <li><a href="#">HOME</a></li>
                 <li><a href="#menu">MENU</a></li>
                 <li>
                     <a href="cart.php">
-                        CART <span class="cart-count"><?= $cart_count > 0 ? $cart_count : '0' ?></span>
+                        CART <span class="cart-count">(<?= $cart_count ?>)</span>
                     </a>
                 </li>
                 <li><a href="#contact">CONTACT</a></li>
+                <li><a href="admin_panel.php">admin</a></li>
             </ul>
         </nav>
     </header>
@@ -89,9 +87,6 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <?php endwhile; ?>
     </div>
 
-
-    
-
     <?php $conn->close(); ?>
 
     <div id="contact" class="contact">
@@ -114,18 +109,6 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             border-radius: 50%;
             font-size: 14px;
             margin-left: 5px;
-        }
-        .admin-btn {
-            background-color: #FFD700;
-            color: black;
-            padding: 5px 10px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-            margin-left: 10px;
-        }
-        .admin-btn:hover {
-            background-color: #FFC107;
         }
     </style>
 </body>

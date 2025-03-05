@@ -4,7 +4,8 @@ include 'database/db.php';
 
 // ✅ ตรวจสอบสิทธิ์ (Admin เท่านั้น)
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    die("คุณไม่มีสิทธิ์เข้าถึงหน้านี้");
+    header("Location: login.php"); // ถ้าไม่มีสิทธิ์ให้กลับไปที่หน้าล็อกอิน
+    exit();
 }
 
 // ✅ ดึงข้อมูลจากตาราง customer, menu และ topping
@@ -51,12 +52,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
 </head>
 <body>
     <h2>Admin Panel - จัดการข้อมูล</h2>
- <!-- ✅ เพิ่มลิงก์ไปหน้า Home และกลับมายัง Admin Panel -->
-        <nav>
-            <a href="index.php">🏠 หน้าแรก (Home)</a> | 
-            <a href="admin_panel.php">🔧 กลับสู่ Admin Panel</a> | 
-            <a href="logout.php">🚪 Logout</a>
-        </nav>
+    
+    <!-- ✅ ปรับเมนูให้กลับไปหน้า Home ได้ โดยไม่ Logout -->
+    <nav>
+        <a href="index.php">🏠 หน้าแรก (Home)</a> | 
+        <a href="admin_panel.php">🔧 กลับสู่ Admin Panel</a> | 
+        <a href="logout.php">🚪 Logout</a>
+    </nav>
+
     <h3>🔹 แก้ไขข้อมูลลูกค้า</h3>
     <table border="1">
         <tr>
@@ -133,6 +136,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
         <?php endforeach; ?>
     </table>
 
-    <a href="logout.php">Logout</a>
 </body>
 </html>
