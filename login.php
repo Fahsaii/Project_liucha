@@ -1,29 +1,35 @@
 <?php
 session_start();
-include 'database/db.php'; // เชื่อมต่อฐานข้อมูล
+include 'database/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
     try {
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt = $conn->prepare("SELECT * FROM customer WHERE Name = :username");
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user'] = $user['username'];
-            $_SESSION['role'] = $user['role']; 
-            header("Location: index.php");
-            exit();
+        if ($user) {
+            // ✅ เปรียบเทียบรหัสผ่านโดยตรง
+            if ($password === $user['Password']) {
+                $_SESSION['user'] = $user['Name'];
+                $_SESSION['role'] = 'customer';
+                header("Location: index.php");
+                exit();
+            } else {
+                $error = "รหัสผ่านไม่ถูกต้อง!";
+            }
         } else {
-            $error = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!";
+            $error = "ไม่พบผู้ใช้นี้!";
         }
     } catch (PDOException $e) {
         $error = "เกิดข้อผิดพลาด: " . $e->getMessage();
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="th">
@@ -34,12 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-    <div class="bubble-tea" style="left: 10%; animation-delay: 0s;"></div>
-    <div class="bubble-tea" style="left: 30%; animation-delay: 1s;"></div>
-    <div class="bubble-tea" style="left: 50%; animation-delay: 2s;"></div>
-    <div class="bubble-tea" style="left: 70%; animation-delay: 3s;"></div>
-    <div class="bubble-tea" style="left: 90%; animation-delay: 4s;"></div>
-
     <div class="login-form">
         <h2>เข้าสู่ระบบ</h2>
         <?php if (!empty($error)) { echo "<p class='error'>$error</p>"; } ?>
