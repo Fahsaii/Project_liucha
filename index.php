@@ -88,6 +88,19 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             </div>
         <?php endwhile; ?>
     </div>
+    <div class="topping-title">TOPPING!</div>
+    <div class="topping-container">
+        <div class="topping-item">
+            <img src="image/chocmint_new.jpg" alt="chocmint_new">
+        </div>
+        <div class="topping-item">
+            <img src="image/caramel_new.jpg" alt="Caramel Milk">
+        </div>
+        <div class="topping-item">
+            <img src="image/Rose_new.jpg" alt="Rose Milk Tea">
+        </div>
+    </div>      
+
     <div class="menunew-title">NEW!</div>
     <div class="menunew-container">
         <div class="menunew-item">
