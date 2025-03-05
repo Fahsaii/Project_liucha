@@ -76,10 +76,10 @@ $total = 0;
         <div class="order-summary">
             <h2>สรุปคำสั่งซื้อ</h2>
             <p>ราคารวมสินค้า: <span><?= number_format($total, 2) ?> บาท</span></p>
-            <p>ค่าจัดส่ง: <span>ฟรี</span></p>
+            <p>ค่าจัดส่ง: <span>35 บาท</span></p>
             <hr>
             <p><b>ยอดรวมทั้งหมด: <span><?= number_format($total, 2) ?> บาท</span></b></p>
-            <button class="checkout" onclick="window.location.href='checkout.php'">สั่งซื้อสินค้า</button>
+            <button class="checkout" onclick="window.location.href='payment.php'">สั่งซื้อสินค้า</button>
         </div>
     </div>
     </body>
