@@ -1,27 +1,28 @@
 <?php
 session_start();
 
+// คำนวณจำนวนสินค้าในตะกร้า
+$cart_count = isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'quantity')) : 0;
+
+// เชื่อมต่อฐานข้อมูล
 $servername = "localhost";
 $username = "root"; 
 $password = ""; 
 $dbname = "liucha"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// แก้ไขคอลัมน์จาก Image เป็น Img
+// ดึงข้อมูลเมนูจากฐานข้อมูล
 $sql = "SELECT MenuID AS id, name AS name, price AS price, image AS image FROM menu";
 $result = $conn->query($sql);
-
-// เช็คว่าดึงข้อมูลสำเร็จหรือไม่
 if (!$result) {
     die("Query failed: " . $conn->error);
 }
 
-// เช็คว่าเป็นผู้ดูแลระบบหรือไม่
+// ตรวจสอบว่าเป็นผู้ดูแลระบบหรือไม่
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
 
@@ -31,8 +32,7 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liu Cha - ร้านชานมไข่มุก</title>
-    <link rel="stylesheet" href="css/index.css"> 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>       
     <header>
@@ -48,20 +48,12 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <nav>
             <ul>
                 <li><a href="#">HOME</a></li>
+                <li><a href="#menu">MENU</a></li>
                 <li>
-                    <input type="checkbox" id="menu-toggle" class="menu-toggle">
-                    <label for="menu-toggle" style="cursor: pointer; font-weight: bold;">MENU</label>
-                    <ul class="submenu">
-                        <li><a href="#MilkTea">Milk Tea</a></li>
-                        <li><a href="#GreenTea">Green Tea</a></li>
-                        <li><a href="#PremiumMilkShake">Premium Milk Shake</a></li>
-                        <li><a href="#SODA">SODA</a></li>
-                        <li><a href="#CreamCheese">Cream Cheese</a></li>
-                        <li><a href="#SPECIAL">SPECIAL</a></li>
-                    </ul>
+                    <a href="cart.php">
+                        CART <span class="cart-count">(<?= $cart_count ?>)</span>
+                    </a>
                 </li>
-                <li><a href="cart.php">CART</a></li>
-                <li><a href="#about">ABOUT</a></li>
                 <li><a href="#contact">CONTACT</a></li>
             </ul>
         </nav>
@@ -73,11 +65,11 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     </div>
 
     <!-- แสดงเมนูจากฐานข้อมูล -->
-    <h1 id="MilkTea" style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
-        Milk Tea
+    <h1 id="MilkTea" style="text-align: center; margin-top: 30px; font-size: 40px; font-weight: 700; color: #DEB887;">
+        เมนูเครื่องดื่ม
     </h1>
 
-    <div class="product-container">
+    <div id="menu" class="product-container">
         <?php while ($row = $result->fetch_assoc()): ?>
             <div class="product">
                 <form action="add_to_cart.php" method="post">
@@ -92,13 +84,10 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <?php endwhile; ?>
     </div>
 
-    <?php 
-    // ปิดการเชื่อมต่อหลังจากใช้ fetch_assoc() เสร็จ
-    $conn->close(); 
-    ?>
+    <?php $conn->close(); ?>
 
-    <div class="contact">
-        <h2>CONTACT US</h2>
+    <div id="contact" class="contact">
+        <h2>ติดต่อเรา</h2>
         <p>📞 097-875-6666</p>
         <p>📞 096-875-3279</p>
         <p>📍 51/139 ม.3 ต.คลองหนึ่ง อ.คลองหลวง จ.ปทุมธานี 12120</p>
@@ -108,5 +97,16 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     <footer>
         <p>&copy; 2025 Liu Cha | All rights reserved.</p>
     </footer>
+
+    <style>
+        .cart-count {
+            background-color: red;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+    </style>
 </body>
 </html>

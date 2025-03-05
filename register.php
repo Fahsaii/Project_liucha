@@ -55,6 +55,11 @@ $conn->close();
     <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
     <section class="register-form">
         <h2>สมัครสมาชิก</h2>
         <?php if (!empty($error)) { echo "<p class='error'>$error</p>"; } ?>
