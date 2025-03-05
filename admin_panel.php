@@ -1,133 +1,129 @@
 <?php
 session_start();
-include 'database/db.php';
 
-// ✅ ตรวจสอบสิทธิ์ (Admin เท่านั้น)
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    die("คุณไม่มีสิทธิ์เข้าถึงหน้านี้");
+// คำนวณจำนวนสินค้าในตะกร้า
+$cart_count = isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'quantity')) : 0;
+
+// เชื่อมต่อฐานข้อมูล
+$servername = "localhost";
+$username = "root"; 
+$password = ""; 
+$dbname = "liucha"; 
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// ✅ ดึงข้อมูลจากตาราง customer, menu และ topping
-$customers = $conn->query("SELECT * FROM customer")->fetchAll(PDO::FETCH_ASSOC);
-$menus = $conn->query("SELECT * FROM menu")->fetchAll(PDO::FETCH_ASSOC);
-$toppings = $conn->query("SELECT * FROM topping")->fetchAll(PDO::FETCH_ASSOC);
-
-// ✅ อัปเดตข้อมูลลูกค้า
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
-    $stmt = $conn->prepare("UPDATE customer SET Name = ?, Password = ?, Phone = ?, Email = ? WHERE CustomerID = ?");
-    $stmt->execute([$_POST['name'], $_POST['password'], $_POST['phone'], $_POST['email'], $_POST['customerID']]);
-    header("Location: admin_panel.php");
-    exit();
+// ดึงข้อมูลเมนูจากฐานข้อมูล
+$sql = "SELECT MenuID AS id, name AS name, price AS price, image AS image FROM menu";
+$result = $conn->query($sql);
+if (!$result) {
+    die("Query failed: " . $conn->error);
 }
 
-// ✅ อัปเดตข้อมูลเมนู
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
-    $stmt = $conn->prepare("UPDATE menu SET name = ?, price = ? WHERE MenuID = ?");
-    $stmt->execute([$_POST['name'], $_POST['price'], $_POST['menuID']]);
-    header("Location: admin_panel.php");
-    exit();
-}
+// ตรวจสอบว่าเป็นผู้ดูแลระบบหรือไม่
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
-// ✅ อัปเดตข้อมูลท็อปปิ้ง
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
-    $stmt = $conn->prepare("UPDATE topping SET name = ?, price = ? WHERE ToppingID = ?");
-    $stmt->execute([$_POST['name'], $_POST['price'], $_POST['toppingID']]);
-    header("Location: admin_panel.php");
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel</title>
-    <script>
-        function resetRow(row) {
-            let inputs = row.querySelectorAll('input');
-            inputs.forEach(input => input.value = input.defaultValue);
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liu Cha - ร้านชานมไข่มุก</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
-<body>
-    <h2>Admin Panel - จัดการข้อมูล</h2>
+<body>       
+    <header>
+        <div class="logo">
+            <img src="image/logo_liucha.png" alt="Liu Cha">
+            <?php if (isset($_SESSION['user'])): ?> 
+                <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> | 
+                <a href="logout.php">Logout</a>
+                <?php if ($isAdmin): ?>
+                    | <a href="admin_panel.php" class="admin-btn">🔧 Admin Panel</a>
+                <?php endif; ?>
+            <?php else: ?>
+                <a href="login.php">Login</a>
+            <?php endif; ?>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.php">HOME</a></li>
+                <li><a href="#menu">MENU</a></li>
+                <li>
+                    <a href="cart.php">
+                        CART <span class="cart-count"><?= $cart_count > 0 ? $cart_count : '0' ?></span>
+                    </a>
+                </li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <h3>🔹 แก้ไขข้อมูลลูกค้า</h3>
-    <table border="1">
-        <tr>
-            <th>CustomerID</th>
-            <th>Name</th>
-            <th>Password</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Action</th>
-        </tr>
-        <?php foreach ($customers as $customer): ?>
-        <tr>
-            <form method="POST">
-                <td><?= $customer['CustomerID'] ?></td>
-                <td><input type="text" name="name" value="<?= htmlspecialchars($customer['Name']) ?>"></td>
-                <td><input type="text" name="password" value="<?= htmlspecialchars($customer['Password']) ?>"></td>
-                <td><input type="text" name="phone" value="<?= htmlspecialchars($customer['Phone']) ?>"></td>
-                <td><input type="email" name="email" value="<?= htmlspecialchars($customer['Email']) ?>"></td>
-                <td>
-                    <input type="hidden" name="customerID" value="<?= $customer['CustomerID'] ?>">
-                    <button type="submit" name="update_customer">บันทึก</button>
-                    <button type="button" onclick="resetRow(this.closest('tr'))">ยกเลิก</button>
-                </td>
-            </form>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+    <!-- HERO SECTION -->
+    <div class="hero">
+        <h1>Liu Cha</h1>
+    </div>
 
-    <h3>🔹 แก้ไขรายการเมนู</h3>
-    <table border="1">
-        <tr>
-            <th>MenuID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Action</th>
-        </tr>
-        <?php foreach ($menus as $menu): ?>
-        <tr>
-            <form method="POST">
-                <td><?= htmlspecialchars($menu['MenuID']) ?></td>
-                <td><input type="text" name="name" value="<?= htmlspecialchars($menu['name']) ?>"></td>
-                <td><input type="number" name="price" value="<?= $menu['price'] ?>"> บาท</td>
-                <td>
-                    <input type="hidden" name="menuID" value="<?= $menu['MenuID'] ?>">
-                    <button type="submit" name="update_menu">บันทึก</button>
-                    <button type="button" onclick="resetRow(this.closest('tr'))">ยกเลิก</button>
-                </td>
-            </form>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+    <!-- แสดงเมนูจากฐานข้อมูล -->
+    <h1 id="MilkTea" style="text-align: center; margin-top: 30px; font-size: 40px; font-weight: 700; color: #DEB887;">
+        เมนูเครื่องดื่ม
+    </h1>
 
-    <h3>🔹 แก้ไขข้อมูลท็อปปิ้ง</h3>
-    <table border="1">
-        <tr>
-            <th>ToppingID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Action</th>
-        </tr>
-        <?php foreach ($toppings as $topping): ?>
-        <tr>
-            <form method="POST">
-                <td><?= htmlspecialchars($topping['ToppingID']) ?></td>
-                <td><input type="text" name="name" value="<?= htmlspecialchars($topping['Name']) ?>"></td>
-                <td><input type="number" name="price" value="<?= htmlspecialchars($topping['Price']) ?>"></td>
-                <td>
-                    <input type="hidden" name="toppingID" value="<?= $topping['ToppingID'] ?>">
-                    <button type="submit" name="update_topping">บันทึก</button>
-                    <button type="button" onclick="resetRow(this.closest('tr'))">ยกเลิก</button>
-                </td>
-            </form>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+    <div id="menu" class="product-container">
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <div class="product">
+                <form action="add_to_cart.php" method="post">
+                    <input type="hidden" name="product_name" value="<?= htmlspecialchars($row['name']) ?>">
+                    <input type="hidden" name="price" value="<?= $row['price'] ?>">
+                    <img src="image/<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="product-img">
+                    <input type="hidden" name="image" value="<?= htmlspecialchars($row['image']) ?>">
+                    <h3><?= htmlspecialchars($row['name']) ?></h3>
+                    <p class="price"><?= $row['price'] ?> บาท</p>
+                    <button type="submit" class="add-btn">เพิ่ม</button>
+                </form>
+            </div>
+        <?php endwhile; ?>
+    </div>
 
-    <a href="logout.php">Logout</a>
+    <?php $conn->close(); ?>
+
+    <div id="contact" class="contact">
+        <h2>ติดต่อเรา</h2>
+        <p>📞 097-875-6666</p>
+        <p>📞 096-875-3279</p>
+        <p>📍 51/139 ม.3 ต.คลองหนึ่ง อ.คลองหลวง จ.ปทุมธานี 12120</p>
+        <img src="image/Addfriends.png" alt="QR Code">
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Liu Cha | All rights reserved.</p>
+    </footer>
+
+    <style>
+        .cart-count {
+            background-color: red;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        .admin-btn {
+            background-color: #FFD700;
+            color: black;
+            padding: 5px 10px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        .admin-btn:hover {
+            background-color: #FFC107;
+        }
+    </style>
 </body>
 </html>
