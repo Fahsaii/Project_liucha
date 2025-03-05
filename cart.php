@@ -14,8 +14,14 @@ $total = 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ตะกร้าสินค้า</title>
     <link rel="stylesheet" href="css/cart.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
+    <div class="bubble-tea"></div>
 
     <header>
         <h1>ตะกร้าสินค้า</h1>
@@ -26,7 +32,7 @@ $total = 0;
         <div class="products">
             <h2>รายการสินค้า</h2>
 
-            <table border="1" width="100%">
+            <table  width="100%">
                 <tr>
                     <th>รูปภาพ</th>
                     <th>สินค้า</th>
@@ -43,7 +49,9 @@ $total = 0;
                             $total += $subtotal;
                         ?>
                         <tr>
-                        <img src="image/<?= urlencode(htmlspecialchars($item['image'])) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="product-img">
+                        <td>
+                            <img src="image/<?= urlencode(htmlspecialchars($item['image'])) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="product-img">
+                    </td>
                             <td><?= htmlspecialchars($item['name']) ?></td>
                             <td><?= number_format($item['price'], 2) ?> บาท</td>
                             <td>
@@ -74,16 +82,5 @@ $total = 0;
             <button class="checkout" onclick="window.location.href='checkout.php'">สั่งซื้อสินค้า</button>
         </div>
     </div>
-
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .container { width: 80%; margin: auto; }
-        .products table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; text-align: center; border: 1px solid #ddd; }
-        img { border-radius: 5px; }
-        .order-summary { margin-top: 20px; text-align: right; }
-        .checkout { background: green; color: white; padding: 10px 20px; border: none; cursor: pointer; }
-    </style>
-
-</body>
+    </body>
 </html>
