@@ -93,7 +93,7 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     </div>
 
     <?php 
-    // ปิดการเชื่อมต่อหลังจากใช้ fetch_assoc() เสร็จ
+
     $conn->close(); 
     ?>
 
