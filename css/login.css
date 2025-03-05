@@ -1,26 +1,61 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
+    background-color: #f9e7d2;
+    /* สีพื้นหลังเดียวกับหน้า register */
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
 }
 
-/* สไตล์สำหรับฟอร์ม Login */
+/* แก้วชานมตกลงมา */
+@keyframes bubble-fall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 1;
+    }
+}
+
+.bubble-tea {
+    position: absolute;
+    top: -50px;
+    width: 50px;
+    height: 50px;
+    background: url('https://cdn-icons-png.flaticon.com/512/924/924514.png') no-repeat center/contain;
+    animation: bubble-fall 5s linear infinite;
+    opacity: 0;
+    z-index: -1;
+    /* แก้วชานมอยู่ด้านหลังฟอร์ม */
+}
+
+/* สไตล์ฟอร์มเข้าสู่ระบบ */
 .login-form {
     width: 100%;
     max-width: 400px;
-    margin: 100px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
     text-align: center;
+    z-index: 1;
+    /* ฟอร์มจะอยู่ด้านหน้าของแก้วชานม */
+    position: relative;
 }
 
 .login-form h2 {
     font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
+    color: #d48872;
+    /* สีเดียวกับหน้า register */
+    margin-bottom: 30px;
 }
 
 .login-form label {
@@ -33,28 +68,43 @@ body {
 
 .login-form input {
     width: 100%;
-    padding: 10px;
+    padding: 18px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #d48872;
+    border-radius: 15px;
     box-sizing: border-box;
     font-size: 16px;
+    background: #fffaf0;
 }
 
 .login-form button {
     width: 100%;
-    padding: 12px;
-    background-color: #ff6347;
+    padding: 18px;
+    background-color: #d48872;
     color: white;
     font-size: 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.1s ease-in-out;
 }
 
 .login-form button:hover {
-    background-color: #ff4500;
+    background-color: #c0725a;
+    transform: scale(1.05);
+}
+
+.login-form p {
+    margin-top: 20px;
+}
+
+.login-form a {
+    color: #d48872;
+    text-decoration: none;
+}
+
+.login-form a:hover {
+    text-decoration: underline;
 }
 
 /* สำหรับข้อความข้อผิดพลาด */
@@ -62,21 +112,6 @@ body {
     color: red;
     font-size: 14px;
     margin-bottom: 15px;
-}
-
-/* สไตล์ของ Footer */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-footer p {
-    margin: 0;
 }
 
 /* สำหรับการตอบสนอง (Responsive) */
