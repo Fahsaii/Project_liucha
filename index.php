@@ -48,20 +48,8 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <nav>
             <ul>
                 <li><a href="#">HOME</a></li>
-                <li>
-                    <input type="checkbox" id="menu-toggle" class="menu-toggle">
-                    <label for="menu-toggle" style="cursor: pointer; font-weight: bold;">MENU</label>
-                    <ul class="submenu">
-                        <li><a href="#MilkTea">Milk Tea</a></li>
-                        <li><a href="#GreenTea">Green Tea</a></li>
-                        <li><a href="#PremiumMilkShake">Premium Milk Shake</a></li>
-                        <li><a href="#SODA">SODA</a></li>
-                        <li><a href="#CreamCheese">Cream Cheese</a></li>
-                        <li><a href="#SPECIAL">SPECIAL</a></li>
-                    </ul>
-                </li>
+                <li><a href="#menu">MENU</a></li>
                 <li><a href="cart.php">CART</a></li>
-                <li><a href="#about">ABOUT</a></li>
                 <li><a href="#contact">CONTACT</a></li>
             </ul>
         </nav>
@@ -77,7 +65,7 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         Milk Tea
     </h1>
 
-    <div class="product-container">
+    <div id="menu" class="product-container">
         <?php while ($row = $result->fetch_assoc()): ?>
             <div class="product">
                 <form action="add_to_cart.php" method="post">
@@ -97,7 +85,7 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     $conn->close(); 
     ?>
 
-    <div class="contact">
+    <div id="contact" class="contact">
         <h2>CONTACT US</h2>
         <p>📞 097-875-6666</p>
         <p>📞 096-875-3279</p>
