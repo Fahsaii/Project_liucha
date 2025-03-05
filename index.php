@@ -48,7 +48,19 @@
                 <ul>
                     
                     <li><a href="#">HOME</a></li>
-                    <li><a href="#menu">MENU</a></li>
+                    
+                    <li>
+                    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+                    <label for="menu-toggle" style="cursor: pointer; font-weight: bold;">MENU</label>
+                        <ul class="submenu">
+                            <li><a href="#MilkTea">Milk Tea</a></li>
+                            <li><a href="#GreenTea">Green Tea</a></li>
+                            <li><a href="#PremiumMilkShake">Premium Milk Shake</a></li>
+                            <li><a href="#SODA">SODA</a></li>
+                            <li><a href="#CreamCheese">Cream Cheese</a></li>
+                            <li><a href="#SPECIAL">SPECIAL</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#cart">CART</a></li>
                     <li><a href="#about">ABOUT</a></li>
                     <li><a href="#contact">CONTACT</a></li>
@@ -61,7 +73,7 @@
             <h1>Liu Cha</h1>
         </div>
         
-        <h1 id="menu" style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
+        <h1 id="MilkTea" style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
         Milk Tea
         </h1>
 
@@ -174,7 +186,7 @@
         </div>
     </div>
 
-    <h1 style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
+    <h1 id="GreenTea" style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
         Green Tea
         </h1>
 
@@ -230,7 +242,7 @@
         </div>
     </div>
 
-    <h1 style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
+    <h1 id="PremiumMilkShake" style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
         Premium Milk Shake
         </h1>
 
@@ -273,7 +285,7 @@
         </div>
     </div>
 
-    <h1 style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
+    <h1 id="SODA" style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
         SODA
         </h1>
 
@@ -310,7 +322,7 @@
         </div>
     </div>
 
-    <h1 style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
+    <h1 id="CreamCheese" style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
         Cream Cheese
         </h1>
 
@@ -335,7 +347,7 @@
         </div>
     </div>
 
-    <h1 style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
+    <h1 id="SPECIAL" style="text-align: center; margin-top: 30px; font-family: 'Kanit', sans-serif; font-size: 40px; font-weight: 700; color: #DEB887;">
         SPECIAL
         </h1>
 
