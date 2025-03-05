@@ -15,7 +15,7 @@ $toppings = $conn->query("SELECT * FROM topping")->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     $stmt = $conn->prepare("UPDATE customer SET Name = ?, Password = ?, Phone = ?, Email = ? WHERE CustomerID = ?");
-    $stmt->execute([$_POST['Name'], $_POST['password'], $_POST['phone'], $_POST['email'], $_POST['customerID']]);
+    $stmt->execute([$_POST['name'], $_POST['password'], $_POST['phone'], $_POST['email'], $_POST['customerID']]);
     header("Location: admin_panel.php");
     exit();
 }
@@ -51,7 +51,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
 </head>
 <body>
     <h2>Admin Panel - จัดการข้อมูล</h2>
-
+ <!-- ✅ เพิ่มลิงก์ไปหน้า Home และกลับมายัง Admin Panel -->
+        <nav>
+            <a href="index.php">🏠 หน้าแรก (Home)</a> | 
+            <a href="admin_panel.php">🔧 กลับสู่ Admin Panel</a> | 
+            <a href="logout.php">🚪 Logout</a>
+        </nav>
     <h3>🔹 แก้ไขข้อมูลลูกค้า</h3>
     <table border="1">
         <tr>
