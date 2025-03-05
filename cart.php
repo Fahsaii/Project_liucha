@@ -8,7 +8,6 @@ if ($conn->connect_error) {
 }
 
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
-$total = 0; 
 ?>
 
 <!DOCTYPE html>
@@ -45,8 +44,8 @@ $total = 0;
                     <?php foreach ($cart as $key => $item): ?>
                         <?php 
                             $subtotal = $item['price'] * $item['quantity'];
-                            $total += $subtotal;
 
+                            // ดึง Topping
                             $sql = "SELECT Name FROM topping WHERE MenuID = ?";
                             $stmt = $conn->prepare($sql);
                             $stmt->bind_param("s", $item['menu_id']);
@@ -65,7 +64,6 @@ $total = 0;
                             </td>
                             <td><?= number_format($subtotal, 2) ?> บาท</td>
 
-            
                             <td>
                                 <form action="add_topping.php" method="POST">
                                     <input type="hidden" name="menu_id" value="<?= htmlspecialchars($item['menu_id']) ?>">
@@ -104,7 +102,10 @@ $total = 0;
 
         <div class="order-summary">
             <h2>สรุปคำสั่งซื้อ</h2>
-            <?php if (!empty($cart)): ?>
+            <?php 
+            $total = 0; // รีเซ็ต total ใหม่ที่นี่
+            if (!empty($cart)): 
+            ?>
                 <?php foreach ($cart as $item): ?>
                     <?php 
                     $subtotal = $item['price'] * $item['quantity'];

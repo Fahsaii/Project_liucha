@@ -1,40 +1,53 @@
 <?php
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['menu_id']) && isset($_POST['topping']) && is_array($_POST['topping'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $menu_id = $_POST['menu_id'];
+    $topping_name = $_POST['topping'];
 
-    $conn = new mysqli("localhost", "root", "", "liucha");
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
     }
 
-    $menu_id = $_POST['menu_id'];
+    foreach ($_SESSION['cart'] as $key => $item) {
+        if ($item['menu_id'] == $menu_id) {
+            // ตรวจสอบว่า Topping ซ้ำหรือไม่
+            if (!isset($_SESSION['cart'][$key]['toppings'])) {
+                $_SESSION['cart'][$key]['toppings'] = [];
+            }
 
-    foreach ($_POST['topping'] as $toppingID) {
-        $sql = "SELECT Name, Price FROM topping WHERE ToppingID = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $toppingID);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $topping = $result->fetch_assoc();
-
-        if ($topping) {
-      
-            foreach ($_SESSION['cart'] as &$item) {
-                if ($item['menu_id'] == $menu_id) {
-                
-                    $item['toppings'][] = [
-                        'name' => $topping['Name'],
-                        'price' => $topping['Price']
-                    ];
+            $already_added = false;
+            foreach ($_SESSION['cart'][$key]['toppings'] as $topping) {
+                if ($topping['name'] == $topping_name) {
+                    $already_added = true;
                     break;
                 }
             }
+
+            if (!$already_added) {
+                // ดึงราคาของ Topping จากฐานข้อมูล
+                $conn = new mysqli("localhost", "root", "", "liucha");
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+                $stmt = $conn->prepare("SELECT Price FROM topping WHERE Name = ?");
+                $stmt->bind_param("s", $topping_name);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+                $topping_price = $row ? $row['Price'] : 0;
+
+                $_SESSION['cart'][$key]['toppings'][] = [
+                    'name' => $topping_name,
+                    'price' => $topping_price
+                ];
+            }
+
+            break;
         }
     }
-
-    $conn->close();
 }
 
 header("Location: cart.php");
 exit();
+?>
