@@ -76,6 +76,7 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                     <input type="hidden" name="product_name" value="<?= htmlspecialchars($row['name']) ?>">
                     <input type="hidden" name="price" value="<?= $row['price'] ?>">
                     <img src="image/<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="product-img">
+                    <input type="hidden" name="image" value="<?= htmlspecialchars($row['image']) ?>">
                     <h3><?= htmlspecialchars($row['name']) ?></h3>
                     <p class="price"><?= $row['price'] ?> บาท</p>
                     <button type="submit" class="add-btn">เพิ่ม</button>

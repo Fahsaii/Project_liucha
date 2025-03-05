@@ -43,7 +43,7 @@ $total = 0;
                             $total += $subtotal;
                         ?>
                         <tr>
-                            <img src="image/<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="product-img">
+                        <img src="image/<?= urlencode(htmlspecialchars($item['image'])) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="product-img">
                             <td><?= htmlspecialchars($item['name']) ?></td>
                             <td><?= number_format($item['price'], 2) ?> บาท</td>
                             <td>
