@@ -38,15 +38,21 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     <header>
         <div class="logo">
             <img src="image/logo_liucha.png" alt="Liu Cha">
-            <?php if (isset($_SESSION['user'])): ?> 
-                <!-- ถ้า login แล้ว แสดงชื่อผู้ใช้และปุ่ม Logout -->
-                <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> | 
-                <a href="logout.php">Logout</a>
-            <?php else: ?>
-                <!-- ถ้ายังไม่ได้ login แสดงปุ่ม Login -->
-                <a href="login.php">Login</a>
-            <?php endif; ?>
+                <?php if (isset($_SESSION['user'])): ?>
+                    <!-- ถ้า login แล้ว แสดงชื่อผู้ใช้และปุ่ม Logout -->
+                    <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> | 
+                    <a href="logout.php">Logout</a> 
+                    <!-- แสดงเมนูสำหรับ admin -->
+                    <?php if ($_SESSION['role'] === 'admin'): ?>
+                        <a href="admin_panel.php">Admin Panel</a>
+                    <?php endif; ?>
+                        <a href="logout.php">Logout</a> 
+                <?php else: ?>
+                    <!-- ถ้ายังไม่ได้ login แสดงปุ่ม Login -->
+                    <a href="login.php">Login</a>
+                <?php endif; ?>
         </div>
+
         <nav>
             <ul>
                 <li><a href="#">HOME</a></li>
@@ -89,18 +95,6 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                 </form>
             </div>
         <?php endwhile; ?>
-    </div>
-    <div class="menunew-title">NEW!</div>
-    <div class="menunew-container">
-        <div class="menunew-item">
-            <img src="image/chocmint_new.jpg" alt="chocmint_new">
-        </div>
-        <div class="menunew-item">
-            <img src="image/caramel_new.jpg" alt="Caramel Milk">
-        </div>
-        <div class="menunew-item">
-            <img src="image/Rose_new.jpg" alt="Rose Milk Tea">
-        </div>
     </div>
 
     <?php $conn->close(); ?>
