@@ -88,7 +88,6 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             </div>
         <?php endwhile; ?>
     </div>
-    
     <div class="menunew-title">NEW!</div>
     <div class="menunew-container">
         <div class="menunew-item">
