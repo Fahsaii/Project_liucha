@@ -2,18 +2,18 @@
 session_start();
 include 'database/db.php';
 
-// ✅ ตรวจสอบสิทธิ์ Admin เท่านั้น
+// ตรวจสอบสิทธิ์ Admin เท่านั้น
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: order.php");
     exit();
 }
 
-// ✅ ดึงข้อมูลจากฐานข้อมูล
+// ดึงข้อมูลจากฐานข้อมูล
 $customers = $conn->query("SELECT * FROM customer")->fetchAll(PDO::FETCH_ASSOC);
 $menus = $conn->query("SELECT * FROM menu")->fetchAll(PDO::FETCH_ASSOC);
 $toppings = $conn->query("SELECT * FROM topping")->fetchAll(PDO::FETCH_ASSOC);
 
-// ✅ อัปเดตข้อมูลลูกค้า
+// อัปเดตข้อมูลลูกค้า
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     $stmt = $conn->prepare("UPDATE customer SET Name = ?, Password = ?, Phone = ?, Email = ? WHERE CustomerID = ?");
     $stmt->execute([$_POST['name'], $_POST['password'], $_POST['phone'], $_POST['email'], $_POST['customerID']]);
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     exit();
 }
 
-// ✅ อัปเดตข้อมูลเมนู
+// อัปเดตข้อมูลเมนู
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
     $stmt = $conn->prepare("UPDATE menu SET name = ?, price = ? WHERE MenuID = ?");
     $stmt->execute([$_POST['name'], $_POST['price'], $_POST['menuID']]);
@@ -29,10 +29,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
     exit();
 }
 
-// ✅ อัปเดตข้อมูลท็อปปิ้ง
+// อัปเดตข้อมูลท็อปปิ้ง
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
-    $stmt = $conn->prepare("UPDATE topping SET name = ?, price = ? WHERE ToppingID = ?");
-    $stmt->execute([$_POST['name'], $_POST['price'], $_POST['toppingID']]);
+    $toppingID = $_POST['toppingID'];
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+
+    // อัปโหลดไฟล์รูปภาพ
+    $imageTopping = '';
+    if (isset($_FILES['imageTopping']) && $_FILES['imageTopping']['error'] === UPLOAD_ERR_OK) {
+        $imageTopping = 'images/' . basename($_FILES['imageTopping']['name']);
+        move_uploaded_file($_FILES['imageTopping']['tmp_name'], $imageTopping); // อัปโหลดไฟล์ไปยังโฟลเดอร์ images/
+    }
+
+    // อัปเดตข้อมูลท็อปปิ้งในฐานข้อมูล
+    $stmt = $conn->prepare("UPDATE topping SET Name = ?, Price = ?, imageTopping = ? WHERE ToppingID = ?");
+    $stmt->execute([$name, $price, $imageTopping, $toppingID]);
+
     header("Location: admin_panel.php");
     exit();
 }
@@ -53,13 +66,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
 <body>
     <h2>Admin Panel - จัดการข้อมูล</h2>
     
-    <!-- ✅ ปรับเมนูให้กลับไปหน้า Home ได้ โดยไม่ Logout -->
+    <!-- เมนูที่ปรับให้กลับไปหน้า Home ได้ โดยไม่ Logout -->
     <nav>
-        <a href="index.php">🏠 หน้าแรก (Home)</a>
+        <a href="index.php">🏠 หน้าแรก (Home)</a> |
         <a href="logout.php">🚪 Logout</a>
     </nav>
 
-    <!-- 🔹 แก้ไขข้อมูลลูกค้า -->
+    <!-- แก้ไขข้อมูลลูกค้า -->
     <h3>🔹 แก้ไขข้อมูลลูกค้า</h3>
     <table border="1">
         <tr>
@@ -88,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
         <?php endforeach; ?>
     </table>
 
-    <!-- 🔹 แก้ไขข้อมูลเมนู -->
+    <!-- แก้ไขข้อมูลเมนู -->
     <h3>🔹 แก้ไขรายการเมนู</h3>
     <table border="1">
         <tr>
@@ -113,21 +126,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
         <?php endforeach; ?>
     </table>
 
-    <!-- 🔹 แก้ไขข้อมูลท็อปปิ้ง -->
+    <!-- แก้ไขข้อมูลท็อปปิ้ง -->
     <h3>🔹 แก้ไขข้อมูลท็อปปิ้ง</h3>
     <table border="1">
         <tr>
             <th>ToppingID</th>
             <th>Name</th>
             <th>Price</th>
+            <th>Image</th>
             <th>Action</th>
         </tr>
         <?php foreach ($toppings as $topping): ?>
         <tr>
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <td><?= htmlspecialchars($topping['ToppingID']) ?></td>
                 <td><input type="text" name="name" value="<?= htmlspecialchars($topping['Name']) ?>"></td>
                 <td><input type="number" name="price" value="<?= htmlspecialchars($topping['Price']) ?>"></td>
+                <td>
+                    <img src="<?= htmlspecialchars($topping['imageTopping']) ?>" alt="Topping Image" width="100">
+                    <input type="file" name="imageTopping">
+                </td>
                 <td>
                     <input type="hidden" name="toppingID" value="<?= $topping['ToppingID'] ?>">
                     <button type="submit" name="update_topping">บันทึก</button>
