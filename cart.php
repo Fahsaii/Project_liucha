@@ -67,7 +67,7 @@ $total = 0;
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6" style="text-align:center;">ไม่มีสินค้าในตะกร้า</td>
+                        <td colspan="6" style="text-align:center;">ไม่มีสินค้าในตะกร้า</td>3
                     </tr>
                 <?php endif; ?>
             </table>
