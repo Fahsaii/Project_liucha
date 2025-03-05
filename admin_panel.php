@@ -2,18 +2,18 @@
 session_start();
 include 'database/db.php';
 
-// ✅ ตรวจสอบสิทธิ์ (Admin เท่านั้น)
+
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php"); // ถ้าไม่มีสิทธิ์ให้กลับไปที่หน้าล็อกอิน
     exit();
 }
 
-// ✅ ดึงข้อมูลจากตาราง customer, menu และ topping
+
 $customers = $conn->query("SELECT * FROM customer")->fetchAll(PDO::FETCH_ASSOC);
 $menus = $conn->query("SELECT * FROM menu")->fetchAll(PDO::FETCH_ASSOC);
 $toppings = $conn->query("SELECT * FROM topping")->fetchAll(PDO::FETCH_ASSOC);
 
-// ✅ อัปเดตข้อมูลลูกค้า
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     $stmt = $conn->prepare("UPDATE customer SET Name = ?, Password = ?, Phone = ?, Email = ? WHERE CustomerID = ?");
     $stmt->execute([$_POST['name'], $_POST['password'], $_POST['phone'], $_POST['email'], $_POST['customerID']]);
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     exit();
 }
 
-// ✅ อัปเดตข้อมูลเมนู
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
     $stmt = $conn->prepare("UPDATE menu SET name = ?, price = ? WHERE MenuID = ?");
     $stmt->execute([$_POST['name'], $_POST['price'], $_POST['menuID']]);
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
     exit();
 }
 
-// ✅ อัปเดตข้อมูลท็อปปิ้ง
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
     $stmt = $conn->prepare("UPDATE topping SET name = ?, price = ? WHERE ToppingID = ?");
     $stmt->execute([$_POST['name'], $_POST['price'], $_POST['toppingID']]);
