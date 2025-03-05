@@ -70,12 +70,22 @@ $total = 0;
 
         <div class="order-summary">
             <h2>สรุปคำสั่งซื้อ</h2>
-            <p>ชานมไข่มุกพรีเมียม x1</p>
-            <p>ราคารวมสินค้า: 99 บาท</p>
-            <p>ค่าจัดส่ง: ฟรี</p>
-            <p>ภาษี: 8.92 บาท</p>
+            <?php if (!empty($cart)): ?>
+                <?php foreach ($cart as $item): ?>
+                    <?php 
+                    $subtotal = $item['price'] * $item['quantity']; 
+                    $total += $subtotal; 
+                    ?>
+                    <p><?= htmlspecialchars($item['name']) ?> x<?= $item['quantity'] ?> = <?= number_format($subtotal, 2) ?> บาท</p>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>ไม่มีสินค้าในตะกร้า</p>
+            <?php endif; ?>
+            
+            <p>ราคารวมสินค้า: <?= number_format($total, 2) ?> บาท</p>
+            <p>ค่าจัดส่ง: <?= number_format($shipping, 2) ?> บาท</p>
             <hr>
-            <h3>ยอดรวมทั้งหมด: 107.92 บาท</h3>
+            <h3>ยอดรวมทั้งหมด: <?= number_format($total + $shipping, 2) ?> บาท</h3>
         </div>
     </div>
 
