@@ -4,7 +4,7 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = $_POST['product_name'] ?? "";
     $price = $_POST['price'] ?? 0;
-    $image = $_POST['image'] ?? "";  // <-- ดึงรูปภาพจากฟอร์ม
+    $image = $_POST['image'] ?? ""; 
 
     if (!empty($name) && $price > 0) {
         if (!isset($_SESSION['cart'])) {
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['cart'][] = [
                 'name' => $name,
                 'price' => $price,
-                'image' => $image,  // <-- เพิ่ม image เข้าไป
+                'image' => $image, 
                 'quantity' => 1
             ];
         }
