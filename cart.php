@@ -55,9 +55,9 @@ $total = 0;
                             <td><?= htmlspecialchars($item['name']) ?></td>
                             <td><?= number_format($item['price'], 2) ?> บาท</td>
                             <td>
-                                <a href="update_cart.php?action=decrease&name=<?= urlencode($item['name']) ?>">➖</a>
+                                <a href="update_cart.php?action=decrease&name=<?= urlencode($item['name']) ?>"> - </a>
                                 <?= $item['quantity'] ?>
-                                <a href="update_cart.php?action=increase&name=<?= urlencode($item['name']) ?>">➕</a>
+                                <a href="update_cart.php?action=increase&name=<?= urlencode($item['name']) ?>"> + </a>
                             </td>
                             <td><?= number_format($subtotal, 2) ?> บาท</td>
                             <td>
@@ -67,7 +67,7 @@ $total = 0;
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6" style="text-align:center;">ไม่มีสินค้าในตะกร้า</td>
+                        <td colspan="6" style="text-align:center;">ไม่มีสินค้าในตะกร้า</td>3
                     </tr>
                 <?php endif; ?>
             </table>
@@ -76,10 +76,10 @@ $total = 0;
         <div class="order-summary">
             <h2>สรุปคำสั่งซื้อ</h2>
             <p>ราคารวมสินค้า: <span><?= number_format($total, 2) ?> บาท</span></p>
-            <p>ค่าจัดส่ง: <span>ฟรี</span></p>
+            <p>ค่าจัดส่ง: <span>35 บาท</span></p>
             <hr>
             <p><b>ยอดรวมทั้งหมด: <span><?= number_format($total, 2) ?> บาท</span></b></p>
-            <button class="checkout" onclick="window.location.href='checkout.php'">สั่งซื้อสินค้า</button>
+            <button class="checkout" onclick="window.location.href='payment.php'">สั่งซื้อสินค้า</button>
         </div>
     </div>
     </body>

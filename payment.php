@@ -1,5 +1,13 @@
+<?php
+session_start();
+
+$cart = $_SESSION['cart'] ?? []; // ดึงข้อมูลตะกร้า
+$shipping = 35; // ค่าจัดส่ง
+$total = 0;
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,49 +18,50 @@
 <body>
 <div class="container">
     <div>
-        <h3>Shipping Address</h3>
-        <form method="POST" action="checkout.php">
-            <input type="text" name="name" placeholder="First & Last Name" required>
-            <input type="text" name="address1" placeholder="Address 1" required>
-            <input type="text" name="address2" placeholder="Apartment, Suite, etc">
-            <input type="text" name="city" placeholder="City" required>
-            <select name="state" required>
-                <option>Select state</option>
-                <option>Dubai</option>
-                <option>Abu Dhabi</option>
-            </select>
-            <input type="text" name="zip" placeholder="Zip Code" required>
+        <h3>ที่อยู่สำหรับจัดส่ง</h3>
+        <form method="POST" action="process_payment.php">
+            <input type="text" name="name" placeholder="ชื่อ" required>
+            <input type="text" name="address1" placeholder="ที่อยู่" required>
+            <input type="text" name="city" placeholder="เมือง" required>
 
-            <h3>Payment Method</h3>
+            <h3>วิธีชำระเงิน</h3>
             <div class="payment-method">
-                <button type="button" class="active">Card</button>
-                <button type="button">Wallet</button>
-                <button type="button">COD</button>
+                <label>
+                    <input type="radio" name="payment_method" value="cash" checked> เงินสด
+                </label>
+                <label>
+                    <input type="radio" name="payment_method" value="credit_card"> บัตรเครดิต
+                </label>
             </div>
-            <input type="text" name="card_name" placeholder="Name on Card" required>
-            <input type="text" name="card_number" placeholder="Card Number" required>
-            <select name="expiry_month">
-                <option>MM</option>
-                <option>01</option>
-                <option>02</option>
-            </select>
-            <select name="expiry_year">
-                <option>YYYY</option>
-                <option>2025</option>
-                <option>2026</option>
-            </select>
-            <input type="text" name="cvv" placeholder="CVV" required>
-            <button type="submit" class="btn-primary">Place Order</button>
+
+            <button type="submit" class="btn-primary">ยืนยันคำสั่งซื้อ</button>
         </form>
     </div>
 
     <div class="order-summary">
-        <h3>Order Summary</h3>
-        <p>Gourmet Coffee Beans</p>
-        <p>Subtotal: $99.00</p>
-        <p>Shipping: $5.00</p>
-        <p>Tax: $8.92</p>
-        <h4>Total: $112.92</h4>
+        <h3>สรุปคำสั่งซื้อ</h3>
+
+        <?php if (!empty($cart)): ?>
+            <ul>
+                <?php foreach ($cart as $item): ?>
+                    <?php 
+                        $subtotal = $item['price'] * $item['quantity'];
+                        $total += $subtotal;
+                    ?>
+                    <li>
+                        <?= htmlspecialchars($item['name']) ?> (<?= $item['quantity'] ?> ชิ้น) 
+                        <strong><?= number_format($subtotal, 2) ?> บาท</strong>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+
+            <p>ราคารวมสินค้า: <?= number_format($total, 2) ?> บาท</p>
+            <p>ค่าจัดส่ง: <?= number_format($shipping, 2) ?> บาท</p>
+            <hr>
+            <h4>ยอดรวมทั้งหมด: <?= number_format($total + $shipping, 2) ?> บาท</h4>
+        <?php else: ?>
+            <p style="color:red;">ไม่มีสินค้าในตะกร้า</p>
+        <?php endif; ?>
     </div>
 </div>
 </body>
