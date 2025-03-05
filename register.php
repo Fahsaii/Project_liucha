@@ -79,7 +79,7 @@ $conn->close();
             <label for="confirmPassword">ยืนยันรหัสผ่าน:</label>
             <input type="password" name="confirmPassword" id="confirmPassword" required>
             
-            <button type="submit">สมัครสมาชิก</button>
+            <button type="submit">สมัครสมาชิก+</button>
         </form>
         <p>มีบัญชีผู้ใช้แล้ว? <a href="login.php">เข้าสู่ระบบ</a></p>
     </section>
