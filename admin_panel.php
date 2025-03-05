@@ -2,18 +2,18 @@
 session_start();
 include 'database/db.php';
 
-
+// ✅ ตรวจสอบสิทธิ์ Admin เท่านั้น
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php"); // ถ้าไม่มีสิทธิ์ให้กลับไปที่หน้าล็อกอิน
+    header("Location: order.php");
     exit();
 }
 
-
+// ✅ ดึงข้อมูลจากฐานข้อมูล
 $customers = $conn->query("SELECT * FROM customer")->fetchAll(PDO::FETCH_ASSOC);
 $menus = $conn->query("SELECT * FROM menu")->fetchAll(PDO::FETCH_ASSOC);
 $toppings = $conn->query("SELECT * FROM topping")->fetchAll(PDO::FETCH_ASSOC);
 
-
+// ✅ อัปเดตข้อมูลลูกค้า
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     $stmt = $conn->prepare("UPDATE customer SET Name = ?, Password = ?, Phone = ?, Email = ? WHERE CustomerID = ?");
     $stmt->execute([$_POST['name'], $_POST['password'], $_POST['phone'], $_POST['email'], $_POST['customerID']]);
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     exit();
 }
 
-
+// ✅ อัปเดตข้อมูลเมนู
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
     $stmt = $conn->prepare("UPDATE menu SET name = ?, price = ? WHERE MenuID = ?");
     $stmt->execute([$_POST['name'], $_POST['price'], $_POST['menuID']]);
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
     exit();
 }
 
-
+// ✅ อัปเดตข้อมูลท็อปปิ้ง
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
     $stmt = $conn->prepare("UPDATE topping SET name = ?, price = ? WHERE ToppingID = ?");
     $stmt->execute([$_POST['name'], $_POST['price'], $_POST['toppingID']]);
@@ -55,11 +55,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
     
     <!-- ✅ ปรับเมนูให้กลับไปหน้า Home ได้ โดยไม่ Logout -->
     <nav>
-        <a href="index.php">🏠 หน้าแรก (Home)</a> | 
-        <a href="admin_panel.php">🔧 กลับสู่ Admin Panel</a> | 
+        <a href="index.php">🏠 หน้าแรก (Home)</a>
         <a href="logout.php">🚪 Logout</a>
     </nav>
 
+    <!-- 🔹 แก้ไขข้อมูลลูกค้า -->
     <h3>🔹 แก้ไขข้อมูลลูกค้า</h3>
     <table border="1">
         <tr>
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
         <?php foreach ($customers as $customer): ?>
         <tr>
             <form method="POST">
-                <td><?= $customer['CustomerID'] ?></td>
+                <td><?= htmlspecialchars($customer['CustomerID']) ?></td>
                 <td><input type="text" name="name" value="<?= htmlspecialchars($customer['Name']) ?>"></td>
                 <td><input type="text" name="password" value="<?= htmlspecialchars($customer['Password']) ?>"></td>
                 <td><input type="text" name="phone" value="<?= htmlspecialchars($customer['Phone']) ?>"></td>
@@ -88,6 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
         <?php endforeach; ?>
     </table>
 
+    <!-- 🔹 แก้ไขข้อมูลเมนู -->
     <h3>🔹 แก้ไขรายการเมนู</h3>
     <table border="1">
         <tr>
@@ -112,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
         <?php endforeach; ?>
     </table>
 
+    <!-- 🔹 แก้ไขข้อมูลท็อปปิ้ง -->
     <h3>🔹 แก้ไขข้อมูลท็อปปิ้ง</h3>
     <table border="1">
         <tr>

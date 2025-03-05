@@ -24,7 +24,6 @@ if (!$result) {
 
 // ตรวจสอบว่าเป็นผู้ดูแลระบบหรือไม่
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
-
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +55,10 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
                     </a>
                 </li>
                 <li><a href="#contact">CONTACT</a></li>
-                <li><a href="admin_panel.php">admin</a></li>
+                <?php if ($isAdmin): ?>
+                    <!-- ปุ่มสำหรับ Admin -->
+                    <li><a href="admin_panel.php">Admin Panel</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
     </header>
@@ -86,6 +88,7 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             </div>
         <?php endwhile; ?>
     </div>
+    
     <div class="menunew-title">NEW!</div>
     <div class="menunew-container">
         <div class="menunew-item">
@@ -98,7 +101,6 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             <img src="image/Rose_new.jpg" alt="Rose Milk Tea">
         </div>
     </div>
-
 
     <?php $conn->close(); ?>
 
