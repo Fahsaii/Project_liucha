@@ -15,7 +15,7 @@ $toppings = $conn->query("SELECT * FROM topping")->fetchAll(PDO::FETCH_ASSOC);
 // ✅ อัปเดตข้อมูลลูกค้า
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     $stmt = $conn->prepare("UPDATE customer SET Name = ?, Password = ?, Phone = ?, Email = ? WHERE CustomerID = ?");
-    $stmt->execute([$_POST['name'], $_POST['password'], $_POST['phone'], $_POST['email'], $_POST['customerID']]);
+    $stmt->execute([$_POST['Name'], $_POST['password'], $_POST['phone'], $_POST['email'], $_POST['customerID']]);
     header("Location: admin_panel.php");
     exit();
 }

@@ -39,7 +39,7 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
         <div class="logo">
             <img src="image/logo_liucha.png" alt="Liu Cha">
             <?php if (isset($_SESSION['user'])): ?> 
-                <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> | 
+                <span>Welcome  <?= htmlspecialchars($_SESSION['user']); ?> </span> | 
                 <a href="logout.php">Logout</a>
             <?php else: ?>
                 <a href="login.php">Login</a>
@@ -84,6 +84,9 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             </div>
         <?php endwhile; ?>
     </div>
+
+
+    
 
     <?php $conn->close(); ?>
 
