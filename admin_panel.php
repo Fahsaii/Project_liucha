@@ -30,14 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
     // อัปโหลดไฟล์รูปภาพ
     $image = '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $image = 'images/' . basename($_FILES['image']['name']);
+        $image = '' . basename($_FILES['image']['name']);
         move_uploaded_file($_FILES['image']['tmp_name'], $image); // อัปโหลดไฟล์ไปยังโฟลเดอร์ images/
     }
 
     // อัปเดตข้อมูลเมนูในฐานข้อมูล
     $stmt = $conn->prepare("UPDATE menu SET name = ?, price = ?, image = ? WHERE MenuID = ?");
     $stmt->execute([$name, $price, $image, $menuID]);
-
+ 
     header("Location: admin_panel.php");
     exit();
 }
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
     // อัปโหลดไฟล์รูปภาพ
     $imageTopping = '';
     if (isset($_FILES['imageTopping']) && $_FILES['imageTopping']['error'] === UPLOAD_ERR_OK) {
-        $imageTopping = 'images/' . basename($_FILES['imageTopping']['name']);
+        $imageTopping = '' . basename($_FILES['imageTopping']['name']);
         move_uploaded_file($_FILES['imageTopping']['tmp_name'], $imageTopping); // อัปโหลดไฟล์ไปยังโฟลเดอร์ images/
     }
 

@@ -7,27 +7,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     try {
-        // ตรวจสอบว่าชื่อผู้ใช้เป็นแอดมินหรือไม่
+        // ตรวจสอบว่าเป็น Admin หรือไม่
         $stmt = $conn->prepare("SELECT * FROM admin WHERE Name = :username");
         $stmt->execute(['username' => $username]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($admin && $password === $admin['Password']) {
-            $_SESSION['user'] = $admin['Name'];
-            $_SESSION['role'] = 'admin'; // กำหนด role เป็น admin
-            header("Location: index.php"); // ส่งไปที่หน้าหลัก
+            session_regenerate_id(true); // ป้องกัน session fixation
+            $_SESSION['user'] = $admin['Name']; // เพิ่ม Name ให้ไม่เป็นค่าว่าง
+            $_SESSION['role'] = 'admin';
+            header("Location: index.php");
             exit();
         }
 
-        // ตรวจสอบว่าผู้ใช้เป็นลูกค้าหรือไม่
+        // ตรวจสอบว่าเป็นลูกค้าหรือไม่
         $stmt = $conn->prepare("SELECT * FROM customer WHERE Name = :username");
         $stmt->execute(['username' => $username]);
         $customer = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($customer && $password === $customer['Password']) {
-            $_SESSION['user'] = $customer['Name'];
-            $_SESSION['role'] = 'customer'; // กำหนด role เป็น customer
-            header("Location: index.php"); // ส่งไปที่หน้าหลัก
+            session_regenerate_id(true);
+            $_SESSION['user'] = $customer['Name']; // เพิ่ม Name ให้ไม่เป็นค่าว่าง
+            $_SESSION['role'] = 'customer';
+            header("Location: index.php");
             exit();
         }
 
@@ -36,7 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "เกิดข้อผิดพลาด: " . $e->getMessage();
     }
 }
-
 ?>
 
 

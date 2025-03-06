@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 // คำนวณจำนวนสินค้าในตะกร้า
 $cart_count = isset($_SESSION['cart']) ? array_sum(array_column($_SESSION['cart'], 'quantity')) : 0;
 
@@ -24,6 +25,7 @@ if (!$result) {
 
 // ตรวจสอบว่าเป็นผู้ดูแลระบบหรือไม่
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+$isLoggedIn = isset($_SESSION['user']);
 ?>
 
 <!DOCTYPE html>
@@ -35,47 +37,46 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>       
-    <header>
-        <div class="logo">
+<header>
+    <div class="logo">
             <img src="image/logo_liucha.png" alt="Liu Cha">
-            <?php if (isset($_SESSION['user'])): ?> 
-                <!-- ถ้า login แล้ว แสดงชื่อผู้ใช้และปุ่ม Logout -->
-                <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> | 
-                <a href="logout.php">Logout</a> 
-                <!-- แสดงเมนูสำหรับ admin -->
-                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                    <a href="admin_panel.php">Admin Panel</a>
+
+            <?php if (isset($_SESSION['user'])): ?>
+                <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> |
+                
+                <?php if ($_SESSION['role'] === 'admin'): ?>
+                    <a href="admin_panel.php">🔧 Admin Panel</a> |
                 <?php endif; ?>
+                
+                <a href="logout.php" style="color: red; font-weight: bold;">🚪 ออกจากระบบ</a>
             <?php else: ?>
-                <!-- ถ้ายังไม่ได้ login แสดงปุ่ม Login -->
-                <a href="login.php">Login</a>
+                <a href="login.php">🔑 เข้าสู่ระบบ</a>
             <?php endif; ?>
         </div>
 
-        <nav>
-            <ul>
-                <li><a href="#">HOME</a></li>
-                <li><a href="#menu">MENU</a></li>
-                <li>
-                    <a href="cart.php">
-                        CART <span class="cart-count">(<?= $cart_count ?>)</span>
-                    </a>
-                </li>
-                <li><a href="#contact">CONTACT</a></li>
-                <?php if ($isAdmin): ?>
-                    <!-- แสดงปุ่ม Admin Panel เฉพาะเมื่อเป็นแอดมิน -->
-                    <li><a href="admin_panel.php">Admin Panel</a></li>
-                <?php endif; ?>
-            </ul>
-        </nav>
-    </header>
+    <nav>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#menu">MENU</a></li>
+            <li>
+                <a href="cart.php">
+                    CART <span class="cart-count">(<?= $cart_count ?>)</span>
+                </a>
+            </li>
+            <li><a href="#contact">CONTACT</a></li>
+            <?php if ($isAdmin): ?>
+                <!-- แสดงเมนู Admin Panel เฉพาะเมื่อเป็นแอดมิน -->
+                <li><a href="admin_panel.php">Admin Panel</a></li>
+            <?php endif; ?>
+        </ul>
+    </nav>
+</header>
 
-    <!-- HERO SECTION -->
+
     <div class="hero">
         <h1>Liu Cha</h1>
     </div>
 
-    <!-- แสดงเมนูจากฐานข้อมูล -->
     <h1 id="MilkTea" style="text-align: center; margin-top: 30px; font-size: 40px; font-weight: 700; color: #DEB887;">
         เมนูเครื่องดื่ม
     </h1>
