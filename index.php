@@ -48,9 +48,9 @@ $isLoggedIn = isset($_SESSION['user']);
                     <a href="admin_panel.php">ADMIN PANEL</a> |
                 <?php endif; ?>
                 
-                <a href="logout.php" style="color: red; font-weight: bold;">🚪 ออกจากระบบ</a>
+                <a href="logout.php" style="color: red; font-weight: bold;">🚪 logout</a>
             <?php else: ?>
-                <a href="login.php">🔑 เข้าสู่ระบบ</a>
+                <a href="login.php">🔑 login</a>
             <?php endif; ?>
         </div>
 
@@ -65,7 +65,7 @@ $isLoggedIn = isset($_SESSION['user']);
             </li>
             <li><a href="#contact">CONTACT</a></li>
             <?php if ($isAdmin): ?>
-                <li><a href="admin_panel.php">Admin Panel</a></li>
+                <li><a href="admin_panel.php">ADMIN PANEL</a></li>
             <?php endif; ?>
         </ul>
     </nav>
@@ -90,11 +90,19 @@ $isLoggedIn = isset($_SESSION['user']);
                     <input type="hidden" name="image" value="<?= htmlspecialchars($row['image']) ?>">
                     <h3><?= htmlspecialchars($row['name']) ?></h3>
                     <p class="price"><?= $row['price'] ?> บาท</p>
-                    <button type="submit" class="add-btn">เพิ่ม</button>
+
+                    <?php if (!isset($_SESSION['user'])): ?>
+                        <!-- If the user is not logged in, show a message and disable the button -->
+                        <button type="button" class="add-btn" onclick="alert('กรุณาล็อกอินก่อนเพิ่มสินค้า!')">เพิ่ม</button>
+                    <?php else: ?>
+                        <!-- If the user is logged in, show the regular Add button -->
+                        <button type="submit" class="add-btn">เพิ่ม</button>
+                    <?php endif; ?>
                 </form>
             </div>
         <?php endwhile; ?>
     </div>
+
 
     <div class="menunew-title">NEW!</div>
     <div class="menunew-container">
