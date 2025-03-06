@@ -74,7 +74,7 @@ $isLoggedIn = isset($_SESSION['user']);
 
 
     <div class="hero">
-        <h1>Liu Cha</h1>
+        <!-- <h1>Liu Cha</h1> -->
     </div>
 
     <h2 id="MilkTea" class="section-title">🥤 เมนูเครื่องดื่ม 🥤</h2>
