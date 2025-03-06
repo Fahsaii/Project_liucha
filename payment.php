@@ -38,11 +38,7 @@ $total = 0;
                 <input type="text" name="address1" placeholder="ที่อยู่" required>
                 <input type="text" name="address3" placeholder="อาคาร/ชั้น/ห้อง">
                 
-                
-                </select>
-                
-
-                                <h2>ช่องทางการชำระเงิน</h2>
+                <h2>ช่องทางการชำระเงิน</h2>
                 <form id="paymentForm">
                     <div class="payment-method">
                         <button type="button" class="active" onclick="selectPaymentMethod('QR Promptpay')">QR Promptpay</button>
@@ -61,6 +57,8 @@ $total = 0;
                     </div>
 
                     <button type="button" class="checkout" onclick="submitForm()">ยืนยันการสั่งซื้อ</button>
+                    <!-- ปุ่มยกเลิกคำสั่งซื้อ -->
+                    <button type="button" class="cancel" onclick="cancelOrder()">ยกเลิกคำสั่งซื้อ</button>
                 </form>
             </div>
 
@@ -95,6 +93,14 @@ $total = 0;
                     
                     // ที่นี่คุณสามารถใช้ Ajax หรือการส่งข้อมูลฟอร์มในแบบไม่รีเฟรชหน้าก็ได้
                     // form.submit(); // ใช้ถ้าต้องการส่งฟอร์มจริงๆ
+                }
+
+                function cancelOrder() {
+                    // การทำงานเมื่อกดปุ่มยกเลิกคำสั่งซื้อ
+                    const confirmCancel = confirm("คุณต้องการยกเลิกคำสั่งซื้อหรือไม่?");
+                    if (confirmCancel) {
+                        window.location.href = "cart.php"; // เปลี่ยนเป็นหน้าตะกร้าสินค้าหรือหน้าหลักที่ต้องการ
+                    }
                 }
             </script>
 
