@@ -84,50 +84,25 @@ nav ul li a:hover {
 
 /* BANNER */
 .hero {
+    width: 100%;
+    height: 500px;
+    background: url("../image/liu.jpg") no-repeat center center/cover;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* ให้ข้อความชิดซ้าย รูปอยู่ขวา */
-    padding: 0 10%;
-    height: 90vh; 
-    background-color: #f9e7d2;
-}
-
-.hero .text {
-    text-align: left;
-    max-width: 500px;
+    justify-content: center;
+    text-align: center;
+    color: white;
 }
 
 .hero h1 {
-    font-size: 64px;
-    font-weight: 500;
-    color: #d48872;
+    font-size: 80px;
+    font-weight: 300;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.hero p {
-    font-size: 24px;
-    color: #555;
+h2 {
+    font-weight: 300;
 }
-
-.hero-image img {
-    width: 1000px;
-    height: auto;
-    border-radius: 50px; 
-}
-
-
-@media (max-width: 768px) {
-    .hero {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-    }
-
-    .hero-image img {
-        width: 300px; 
-        margin-top: 20px;
-    }
-}
-
 
 /* MENU GRID */
 .menu {
