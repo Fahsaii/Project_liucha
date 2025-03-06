@@ -65,7 +65,6 @@ $isLoggedIn = isset($_SESSION['user']);
             </li>
             <li><a href="#contact">CONTACT</a></li>
             <?php if ($isAdmin): ?>
-                <!-- แสดงเมนู Admin Panel เฉพาะเมื่อเป็นแอดมิน -->
                 <li><a href="admin_panel.php">Admin Panel</a></li>
             <?php endif; ?>
         </ul>
@@ -95,6 +94,19 @@ $isLoggedIn = isset($_SESSION['user']);
                 </form>
             </div>
         <?php endwhile; ?>
+    </div>
+
+    <div class="menunew-title">NEW!</div>
+    <div class="menunew-container">
+        <div class="menunew-item">
+            <img src="image/chocmint_new.jpg" alt="chocmint_new">
+        </div>
+        <div class="menunew-item">
+            <img src="image/caramel_new.jpg" alt="Caramel Milk">
+        </div>
+        <div class="menunew-item">
+            <img src="image/Rose_new.jpg" alt="Rose Milk Tea">
+        </div>
     </div>
 
     <?php $conn->close(); ?>
