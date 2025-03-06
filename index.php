@@ -90,11 +90,19 @@ $isLoggedIn = isset($_SESSION['user']);
                     <input type="hidden" name="image" value="<?= htmlspecialchars($row['image']) ?>">
                     <h3><?= htmlspecialchars($row['name']) ?></h3>
                     <p class="price"><?= $row['price'] ?> บาท</p>
-                    <button type="submit" class="add-btn">เพิ่ม</button>
+
+                    <?php if (!isset($_SESSION['user'])): ?>
+                        <!-- If the user is not logged in, show a message and disable the button -->
+                        <button type="button" class="add-btn" onclick="alert('กรุณาล็อกอินก่อนเพิ่มสินค้า!')">เพิ่ม</button>
+                    <?php else: ?>
+                        <!-- If the user is logged in, show the regular Add button -->
+                        <button type="submit" class="add-btn">เพิ่ม</button>
+                    <?php endif; ?>
                 </form>
             </div>
         <?php endwhile; ?>
     </div>
+
 
     <div class="menunew-title">NEW!</div>
     <div class="menunew-container">
