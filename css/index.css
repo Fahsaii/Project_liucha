@@ -35,6 +35,7 @@ header {
     border-bottom: 4px solid #d48872;
 }
 header .logo a, header a {
+    margin-top: 10px;
     color: #333; 
     font-size: 18px;
     font-weight: 300;
