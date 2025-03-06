@@ -48,9 +48,9 @@ $isLoggedIn = isset($_SESSION['user']);
                     <a href="admin_panel.php">ADMIN PANEL</a> |
                 <?php endif; ?>
                 
-                <a href="logout.php" style="color: red; font-weight: bold;">🚪 ออกจากระบบ</a>
+                <a href="logout.php" style="color: red; font-weight: bold;">🚪 logout</a>
             <?php else: ?>
-                <a href="login.php">🔑 เข้าสู่ระบบ</a>
+                <a href="login.php">🔑 login</a>
             <?php endif; ?>
         </div>
 
@@ -65,7 +65,7 @@ $isLoggedIn = isset($_SESSION['user']);
             </li>
             <li><a href="#contact">CONTACT</a></li>
             <?php if ($isAdmin): ?>
-                <li><a href="admin_panel.php">Admin Panel</a></li>
+                <li><a href="admin_panel.php">ADMIN PANEL</a></li>
             <?php endif; ?>
         </ul>
     </nav>
