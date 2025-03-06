@@ -12,14 +12,7 @@ html {
     scroll-behavior: smooth;
 }
 
-* {
-    font-family: 'Mitr', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 body {
-    font-family: 'Mitr', sans-serif;
     background-color: #f9e7d2;
     margin: 0;
     padding: 0;
@@ -100,43 +93,6 @@ nav ul li a:hover {
     text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-h2 {
-    font-weight: 300;
-}
-
-
-.menu {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    text-align: center;
-}
-
-.menu-item {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-}
-
-.menu-item:hover {
-    transform: scale(1.05);
-}
-
-.menu-item img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.menu-item h3 {
-    font-size: 20px;
-    margin: 10px 0;
-}
-
 .price {
     font-weight: bold;
     color: #d48872;
@@ -202,15 +158,15 @@ footer {
 .menunew-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     margin: 20px auto;
     padding: 20px;
-    max-width: 1000px;
+    max-width: 1200px;
 }
 
 .menunew-item {
-    width: 300px; /* กำหนดความกว้างเท่ากัน */
-    height: 400px; /* กำหนดความสูงเท่ากัน */
+    width: 350px; /* จาก 300px เป็น 350px */
+    height: 450px; /* จาก 400px เป็น 450px */
     overflow: hidden;
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -222,3 +178,83 @@ footer {
     object-fit: cover;
     border-radius: 15px;
 }
+
+.section-title {
+    font-size: 28px;
+    font-weight: 400;
+    color: #d48872;
+    text-align: center;
+    margin: 50px auto 30px;
+    padding: 10px 30px;
+    display: inline-block;
+    background: #fff7f1;
+    border: 3px solid #d48872;
+    border-radius: 50px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    letter-spacing: 2px;
+    display: block; /* ให้มัน block เต็มบรรทัด */
+    width: fit-content; /* กว้างพอดีกับข้อความ */
+    text-align: center; /* ข้อความอยู่กลาง */
+    margin-left: auto; /* ดันไปกลาง */
+    margin-right: auto; /* ดันไปกลาง */
+}
+
+#contact {
+    background-color: #fff8f2;
+    padding: 40px 30px; /* เพิ่ม padding ขึ้นนิดหน่อย */
+    margin-top: 50px; /* เว้นระยะจากด้านบน */
+    text-align: center;
+    border-radius: 20px;
+    max-width: 900px; /* ให้ยาวขึ้น */
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#contact h2 {
+    font-size: 28px; /* ขยายหัวข้อ */
+    color: #d48872;
+    margin-bottom: 25px;
+    font-weight: 400;
+}
+
+.contact-wrapper {
+    display: flex;
+    justify-content: space-between; /* กระจายซ้าย-ขวา */
+    align-items: center;
+    gap: 30px; /* เพิ่มช่องว่าง */
+    flex-wrap: wrap;
+}
+
+.contact-info {
+    text-align: left;
+    flex: 1;
+}
+
+.contact-info p {
+    font-size: 18px; /* ขยายตัวอักษร */
+    margin: 8px 0;
+    color: #333;
+}
+
+.contact-qr {
+    text-align: center;
+    flex: 0 0 130px; /* กำหนดขนาดกล่อง QR */
+}
+
+.contact-qr img {
+    width: 150px; /* ขยายจากเดิมเช่น 120px */
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 12px; /* มุมโค้งน่ารัก ๆ */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* ใส่เงาเบา ๆ */
+}
+
+
+.contact-qr p {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #666;
+}
+

@@ -74,12 +74,10 @@ $isLoggedIn = isset($_SESSION['user']);
 
 
     <div class="hero">
-        <h1>Liu Cha</h1>
+        <!-- <h1>Liu Cha</h1> -->
     </div>
 
-    <h2 id="MilkTea" style="text-align: center; margin-top: 30px; font-size: 40px; font-weight: 700; color: #DEB887;">
-        เมนูเครื่องดื่ม
-    </h2>
+    <h2 id="MilkTea" class="section-title">🥤 เมนูเครื่องดื่ม 🥤</h2>
 
     <div id="menu" class="product-container">
         <?php while ($row = $result->fetch_assoc()): ?>
@@ -105,7 +103,9 @@ $isLoggedIn = isset($_SESSION['user']);
     </div>
 
 
-    <div class="menunew-title">NEW!</div>
+    <div class="menunew-title">
+        <h2 class="section-title">✨ NEW! ✨</h2>
+    </div>
     <div class="menunew-container">
         <div class="menunew-item">
             <img src="image/chocmint_new.jpg" alt="chocmint_new">
@@ -121,12 +121,20 @@ $isLoggedIn = isset($_SESSION['user']);
     <?php $conn->close(); ?>
 
     <div id="contact" class="contact">
-        <h2>ติดต่อเรา</h2>
-        <p>📞 097-875-6666</p>
-        <p>📞 096-875-3279</p>
-        <p>📍 51/139 ม.3 ต.คลองหนึ่ง อ.คลองหลวง จ.ปทุมธานี 12120</p>
-        <img src="image/Addfriends.png" alt="QR Code">
+    <h2>📞 ติดต่อเรา 📞</h2>
+    <div class="contact-wrapper">
+        <div class="contact-info">
+            <p>📱097-875-6666</p>
+            <p>📱096-875-3279</p>
+            <p>📍 51/139 ม.3 ต.คลองหนึ่ง อ.คลองหลวง จ.ปทุมธานี 12120</p>
+        </div>
+        <div class="contact-qr">
+            <img src="image/Addfriends.png" alt="QR Code">
+            <p>สแกนเพิ่มเพื่อนทาง LINE ✅</p>
+        </div>
     </div>
+</div>
+
 
     <footer>
         <p>&copy; 2025 Liu Cha | All rights reserved.</p>
