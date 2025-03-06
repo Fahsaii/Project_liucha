@@ -1,0 +1,83 @@
+body {
+    font-family: 'Mali', cursive;
+    background: linear-gradient(135deg, #f9e7d2, #f3c6a5);
+    margin: 0;
+    padding: 20px;
+}
+
+h2,
+h3 {
+    color: #d48872;
+    text-align: center;
+    font-size: 2rem;
+}
+
+nav {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav a {
+    margin: 0 15px;
+    color: #bf6f54;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: center;
+}
+
+th {
+    background-color: #f8d7b3;
+    color: #555;
+}
+
+tr:nth-child(even) {
+    background-color: #faecd8;
+}
+
+tr:hover {
+    background-color: #f5cbaa;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="file"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 90%;
+}
+
+button {
+    background-color: #d48872;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #bf6f54;
+}

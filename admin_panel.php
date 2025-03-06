@@ -68,6 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
 <html lang="th">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/panel.css">
+
     <title>Admin Panel</title>
     <script>
         function resetRow(row) {
