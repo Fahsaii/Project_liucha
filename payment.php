@@ -53,7 +53,7 @@ $total = 0;
 
                     <!-- ส่วนแสดงข้อความชำระเงินสด -->
                     <div id="cashPaymentSection" style="display: none;">
-                        <p>กรุณาชำระเงินสดที่ร้าน</p>
+                        <p>กรุณาชำระเงินสด</p>
                     </div>
 
                     <button type="button" class="checkout" onclick="submitForm()">ยืนยันการสั่งซื้อ</button>
