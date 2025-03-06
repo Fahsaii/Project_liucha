@@ -1,42 +1,42 @@
 <?php
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $menu_id = $_POST['menu_id']; // รับ menu_id จากฟอร์ม
-    $topping_name = $_POST['topping']; // รับ topping จากฟอร์ม
+session_start();
 
-    // ตรวจสอบว่า menu_id และ topping_name มีค่าหรือไม่
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $menu_id = $_POST['menu_id']; 
+    $topping_name = $_POST['topping']; 
+
+    // ตรวจสอบการส่งข้อมูล
     if (empty($menu_id) || empty($topping_name)) {
-        echo "กรุณาเลือก Topping หรือเมนู";
+        $_SESSION['error'] = "กรุณาเลือก Topping หรือเมนู";
+        header("Location: cart.php");
         exit();
     }
 
-    // เช็คว่า ตะกร้า มีสินค้าอยู่หรือไม่
     if (!isset($_SESSION['cart'])) {
         $_SESSION['cart'] = [];
     }
 
-    // วนลูปเพื่อหาสินค้าที่ตรงกับ menu_id
+    // ค้นหาเมนูในตะกร้า
     foreach ($_SESSION['cart'] as $key => $item) {
-        if ($item['menu_id'] == $menu_id) { // ตรวจสอบว่า menu_id ตรงกับสินค้าตัวไหนในตะกร้า
+        if ($item['menu_id'] == $menu_id) { 
 
-            // เช็คว่าเมนูนี้มี Topping อยู่แล้วหรือไม่
+            // ตรวจสอบว่ามีการเพิ่ม Topping หรือไม่
             if (!isset($_SESSION['cart'][$key]['toppings'])) {
                 $_SESSION['cart'][$key]['toppings'] = [];
             }
 
-            // เช็คว่า Topping นี้ได้ถูกเพิ่มไปแล้วหรือยัง
+            // ตรวจสอบว่า Topping นี้ถูกเพิ่มไปแล้วหรือยัง
             $already_added = false;
             foreach ($_SESSION['cart'][$key]['toppings'] as $topping) {
                 if ($topping['name'] == $topping_name) {
                     $already_added = true;
-                    break; // หาก Topping ซ้ำไม่ต้องเพิ่ม
+                    break; 
                 }
             }
 
-            // ถ้า Topping ยังไม่ถูกเพิ่ม, ทำการเพิ่ม Topping
             if (!$already_added) {
-                // เชื่อมต่อฐานข้อมูลเพื่อดึงราคาของ Topping
                 $conn = new mysqli("localhost", "root", "", "liucha");
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);
@@ -49,9 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $result = $stmt->get_result();
                 $row = $result->fetch_assoc();
 
-                // ตรวจสอบว่าพบ Topping หรือไม่
                 if (!$row) {
-                    echo "ไม่พบ Topping นี้ในฐานข้อมูล";
+                    $_SESSION['error'] = "ไม่พบ Topping นี้ในฐานข้อมูล";
+                    header("Location: cart.php");
                     exit();
                 }
 
@@ -64,11 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ];
             }
 
-            break; // หยุดการวนลูปเมื่อเจอสินค้า
+            break;
         }
     }
 
-    // รีไดเรกกลับไปที่หน้าตะกร้า
+    // รีไดเรกต์ไปหน้าตะกร้า
+    $_SESSION['success'] = "Topping added successfully!";
     header("Location: cart.php");
     exit();
 }
