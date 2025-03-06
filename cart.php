@@ -107,13 +107,12 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                             $result = $stmt->get_result();
                             while ($row = $result->fetch_assoc()):
                             ?>
-                                <option value="<?= $row['ID'] ?>"><?= htmlspecialchars($row['Name']) ?> (+<?= number_format($row['Price'], 2) ?> บาท)</option>
+                                <option value="<?= $row['ToppingID'] ?>"><?= htmlspecialchars($row['Name']) ?> (+<?= number_format($row['Price'], 2) ?> บาท)</option>
                             <?php endwhile; ?>
                         </select>
                         <button type="submit">เพิ่ม</button>
                     </form>
 
-                    <!-- แสดง Topping แยกตามแต่ละแก้ว -->
                     <?php if (!empty($item['toppings'])): ?>
                         <ul>
                             <?php foreach ($item['toppings'] as $toppingKey => $topping): ?>
@@ -121,7 +120,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                                     + <?= htmlspecialchars($topping['name']) ?> (<?= number_format($topping['price'], 2) ?> บาท)
                                     <a href="remove_topping.php?key=<?= $key ?>&topping_key=<?= $toppingKey ?>" style="color:red;">ลบ</a>
                                 </li>
-                                <?php $subtotal += $topping['price']; // บวกเพิ่มเฉพาะแก้วนี้ ?>
+                                <?php $subtotal += $topping['price']; ?>
                             <?php endforeach; ?>
                         </ul>
                     <?php endif; ?>
