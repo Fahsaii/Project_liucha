@@ -45,7 +45,7 @@ $isLoggedIn = isset($_SESSION['user']);
                 <span>ยินดีต้อนรับ, <?= htmlspecialchars($_SESSION['user']); ?></span> |
                 
                 <?php if ($_SESSION['role'] === 'admin'): ?>
-                    <a href="admin_panel.php">🔧 Admin Panel</a> |
+                    <a href="admin_panel.php">ADMIN PANEL</a> |
                 <?php endif; ?>
                 
                 <a href="logout.php" style="color: red; font-weight: bold;">🚪 ออกจากระบบ</a>
