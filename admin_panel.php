@@ -2,13 +2,13 @@
 session_start();
 include 'database/db.php';
 
-
+// ตรวจสอบสิทธิ์ Admin เท่านั้น
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: order.php");
     exit();
 }
 
-
+// ดึงข้อมูลจากฐานข้อมูล
 $customers = $conn->query("SELECT * FROM customer")->fetchAll(PDO::FETCH_ASSOC);
 $menus = $conn->query("SELECT * FROM menu")->fetchAll(PDO::FETCH_ASSOC);
 $toppings = $conn->query("SELECT * FROM topping")->fetchAll(PDO::FETCH_ASSOC);
@@ -21,20 +21,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_customer'])) {
     exit();
 }
 
-
+// อัปเดตข้อมูลเมนู (รวมถึงการอัปโหลดรูปภาพ)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
     $menuID = $_POST['menuID'];
     $name = $_POST['name'];
     $price = $_POST['price'];
 
-  
+    // อัปโหลดไฟล์รูปภาพ
     $image = '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $image = '' . basename($_FILES['image']['name']);
-        move_uploaded_file($_FILES['image']['tmp_name'], $image); 
+        move_uploaded_file($_FILES['image']['tmp_name'], $image); // อัปโหลดไฟล์ไปยังโฟลเดอร์ images/
     }
 
-    
+    // อัปเดตข้อมูลเมนูในฐานข้อมูล
     $stmt = $conn->prepare("UPDATE menu SET name = ?, price = ?, image = ? WHERE MenuID = ?");
     $stmt->execute([$name, $price, $image, $menuID]);
  
@@ -42,20 +42,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_menu'])) {
     exit();
 }
 
-
+// อัปเดตข้อมูลท็อปปิ้ง
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
     $toppingID = $_POST['toppingID'];
     $name = $_POST['name'];
     $price = $_POST['price'];
 
-   
+    // อัปโหลดไฟล์รูปภาพ
     $imageTopping = '';
     if (isset($_FILES['imageTopping']) && $_FILES['imageTopping']['error'] === UPLOAD_ERR_OK) {
         $imageTopping = '' . basename($_FILES['imageTopping']['name']);
-        move_uploaded_file($_FILES['imageTopping']['tmp_name'], $imageTopping); 
+        move_uploaded_file($_FILES['imageTopping']['tmp_name'], $imageTopping); // อัปโหลดไฟล์ไปยังโฟลเดอร์ images/
     }
 
-    
+    // อัปเดตข้อมูลท็อปปิ้งในฐานข้อมูล
     $stmt = $conn->prepare("UPDATE topping SET Name = ?, Price = ?, imageTopping = ? WHERE ToppingID = ?");
     $stmt->execute([$name, $price, $imageTopping, $toppingID]);
 
@@ -81,13 +81,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
 <body>
     <h2>Admin Panel - จัดการข้อมูล</h2>
     
-    
+    <!-- เมนูที่ปรับให้กลับไปหน้า Home ได้ โดยไม่ Logout -->
     <nav>
         <a href="index.php">🏠 หน้าแรก (Home)</a> |
         <a href="logout.php">🚪 Logout</a>
     </nav>
 
-   
+    <!-- แก้ไขข้อมูลลูกค้า -->
     <h3>🔹 แก้ไขข้อมูลลูกค้า</h3>
     <table border="1">
         <tr>
@@ -175,6 +175,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_topping'])) {
         </tr>
         <?php endforeach; ?>
     </table>
-
 </body>
 </html>
