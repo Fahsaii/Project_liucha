@@ -133,6 +133,9 @@ $total = 0;
             <p>ค่าจัดส่ง: <?= number_format($shipping, 2) ?> บาท</p>
             <hr>
             <h3>ยอดรวมทั้งหมด: <?= number_format($total + $shipping, 2) ?> บาท</h3>
+
+            <!-- ปุ่มยกเลิกคำสั่งซื้อที่อยู่ในส่วนสรุปคำสั่งซื้อ -->
+            <button type="button" class="cancel" onclick="cancelOrder()">ยกเลิกคำสั่งซื้อ</button>
         </div>
 
 </body>
