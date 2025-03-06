@@ -51,7 +51,7 @@ $isLoggedIn = isset($_SESSION['user']);
                 
                 <a href="logout.php" style="color: red; font-weight: bold;">🚪 logout</a>
             <?php else: ?>
-                <a href="login.php">🔑 login</a>
+                <a href="login.php">login</a>
             <?php endif; ?>
         </div>
 
@@ -73,9 +73,16 @@ $isLoggedIn = isset($_SESSION['user']);
 </header>
 
 
-    <div class="hero">
-        <h1>Liu Cha</h1>
-    </div>
+    <section class="hero">
+        <div class="text">
+            <h1>Liucha</h1>
+            <p>ชานมไข่มุกระดับพรีเมียม</p>
+        </div>
+        <div class="hero-image">
+            <img src="image/liuchalogo-Photoroom.png" alt="Liu Cha head">
+        </div>
+    </section>
+
 
     <h2 id="MilkTea" style="text-align: center; margin-top: 30px; font-size: 40px; font-weight: 700; color: #DEB887;">
         เมนูเครื่องดื่ม
