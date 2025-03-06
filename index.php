@@ -35,6 +35,7 @@ $isLoggedIn = isset($_SESSION['user']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liu Cha - ร้านชานมไข่มุก</title>
     <link rel="stylesheet" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>       
 <header>
@@ -50,7 +51,7 @@ $isLoggedIn = isset($_SESSION['user']);
                 
                 <a href="logout.php" style="color: red; font-weight: bold;">🚪 logout</a>
             <?php else: ?>
-                <a href="login.php">🔑 login</a>
+                <a href="login.php">login</a>
             <?php endif; ?>
         </div>
 
@@ -76,9 +77,9 @@ $isLoggedIn = isset($_SESSION['user']);
         <h1>Liu Cha</h1>
     </div>
 
-    <h1 id="MilkTea" style="text-align: center; margin-top: 30px; font-size: 40px; font-weight: 700; color: #DEB887;">
+    <h2 id="MilkTea" style="text-align: center; margin-top: 30px; font-size: 40px; font-weight: 700; color: #DEB887;">
         เมนูเครื่องดื่ม
-    </h1>
+    </h2>
 
     <div id="menu" class="product-container">
         <?php while ($row = $result->fetch_assoc()): ?>
