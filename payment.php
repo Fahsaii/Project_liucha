@@ -35,37 +35,69 @@ $total = 0;
             <form method="POST" action="checkout.php">
                 <input type="text" name="name" placeholder="ชื่อ - นามสกุล" required>
                 <input type="text" name="tel" placeholder="เบอร์โทรศัพท์" required>
-                <input type="text" name="address1" placeholder="ที่อยู่ 1" required>
-                <input type="text" name="address2" placeholder="ที่อยู่ 2" required>
+                <input type="text" name="address1" placeholder="ที่อยู่" required>
                 <input type="text" name="address3" placeholder="อาคาร/ชั้น/ห้อง">
                 
                 
                 </select>
                 
 
-                <h2>ช่องทางการชำระเงิน</h2>
-                <div class="payment-method">
-                    <button type="button" class="active">บัตรเครดิต</button>
-                    <button type="button">วอลเล็ต</button>
-                    <button type="button">เก็บเงินปลายทาง</button>
-                </div>
-                <input type="text" name="card_name" placeholder="ชื่อบนบัตร" required>
-                <input type="text" name="card_number" placeholder="หมายเลขบัตร" required>
-                <div class="row">
-                    <select name="expiry_month">
-                        <option>เดือน</option>
-                        <option>01</option>
-                        <option>02</option>
-                    </select>
-                    <select name="expiry_year">
-                        <option>ปี</option>
-                        <option>2025</option>
-                        <option>2026</option>
-                    </select>
-                    <input type="text" name="cvv" placeholder="CVV" required>
-                </div>
-                <button type="submit" class="checkout">ยืนยันการสั่งซื้อ</button>
-            </form>
+                                <h2>ช่องทางการชำระเงิน</h2>
+                <form id="paymentForm">
+                    <div class="payment-method">
+                        <button type="button" class="active" onclick="selectPaymentMethod('QR Promptpay')">QR Promptpay</button>
+                        <button type="button" onclick="selectPaymentMethod('เงินสด')">เงินสด</button>
+                    </div>
+
+                    <!-- ส่วนแสดง QR Promptpay และอัพโหลดสลิป -->
+                    <div id="qrPromptpaySection" style="display: block;">
+                        <img src="your-qr-code-image-url.jpg" alt="QR Promptpay" id="qrImage">
+                        <input type="file" name="slip" id="slipUpload" accept="image/*">
+                    </div>
+
+                    <!-- ส่วนแสดงข้อความชำระเงินสด -->
+                    <div id="cashPaymentSection" style="display: none;">
+                        <p>กรุณาชำระเงินสดที่ร้าน</p>
+                    </div>
+
+                    <button type="button" class="checkout" onclick="submitForm()">ยืนยันการสั่งซื้อ</button>
+                </form>
+            </div>
+
+            <script>
+                function selectPaymentMethod(method) {
+                    // ซ่อนทั้งสองส่วนก่อน
+                    document.getElementById('qrPromptpaySection').style.display = 'none';
+                    document.getElementById('cashPaymentSection').style.display = 'none';
+
+                    // ลบคลาส active ออกจากทุกปุ่ม
+                    const buttons = document.querySelectorAll('.payment-method button');
+                    buttons.forEach(button => button.classList.remove('active'));
+
+                    // เพิ่มคลาส active ให้กับปุ่มที่เลือก
+                    const selectedButton = Array.from(buttons).find(button => button.textContent === method);
+                    selectedButton.classList.add('active');
+
+                    // แสดงส่วนที่เกี่ยวข้องกับการเลือก
+                    if (method === 'QR Promptpay') {
+                        document.getElementById('qrPromptpaySection').style.display = 'block';
+                    } else if (method === 'เงินสด') {
+                        document.getElementById('cashPaymentSection').style.display = 'block';
+                    }
+                }
+
+                function submitForm() {
+                    // เพิ่มการทำงานที่ต้องการเมื่อคลิกปุ่มยืนยัน
+                    const form = document.getElementById('paymentForm');
+                    
+                    // ตัวอย่างการทำงาน - แสดงข้อความว่าได้รับข้อมูล
+                    alert('ข้อมูลการชำระเงินได้รับแล้ว!');
+                    
+                    // ที่นี่คุณสามารถใช้ Ajax หรือการส่งข้อมูลฟอร์มในแบบไม่รีเฟรชหน้าก็ได้
+                    // form.submit(); // ใช้ถ้าต้องการส่งฟอร์มจริงๆ
+                }
+            </script>
+
         </div>
 
         <div class="order-summary">
