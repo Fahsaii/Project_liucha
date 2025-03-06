@@ -1,24 +1,14 @@
 <?php
 session_start();
 
-if (isset($_GET['action']) && isset($_GET['key'])) {
-    $action = $_GET['action'];
-    $key = $_GET['key'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $menu_id = $_POST['menu_id'];
+    $topping_name = $_POST['topping'];
 
-    // เช็คว่าเซสชั่นตะกร้าสินค้าอยู่หรือไม่
-    if (isset($_SESSION['cart'][$key])) {
-        // ถ้าคุณเลือกเพิ่มจำนวนสินค้า
-        if ($action === 'increase') {
-            $_SESSION['cart'][$key]['quantity'] += 1;
-        }
-        // ถ้าคุณเลือกลดจำนวนสินค้า
-        if ($action === 'decrease' && $_SESSION['cart'][$key]['quantity'] > 1) {
-            $_SESSION['cart'][$key]['quantity'] -= 1;
-        }
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
     }
-}
 
-    // วนลูปผ่านสินค้าตะกร้าเพื่อตรวจสอบว่า menu_id ตรงกับสินค้าที่จะเพิ่ม Topping หรือไม่
     foreach ($_SESSION['cart'] as $key => $item) {
         if ($item['menu_id'] == $menu_id) {
             // ตรวจสอบว่ามีการเลือก Topping ไว้แล้วหรือไม่
@@ -42,14 +32,19 @@ if (isset($_GET['action']) && isset($_GET['key'])) {
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);
                 }
-
-                // ดึงราคาของ Topping จากฐานข้อมูล
                 $stmt = $conn->prepare("SELECT Price FROM topping WHERE Name = ?");
-                $stmt->bind_param("s", $topping_name);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $row = $result->fetch_assoc();
-                $topping_price = $row ? $row['Price'] : 0;
+                if ($stmt) {
+                    $stmt->bind_param("s", $topping_name);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_assoc();
+                    $topping_price = $row ? $row['Price'] : 0;
+                    $stmt->close();
+                } else {
+                    $topping_price = 0;
+                }
+
+                $conn->close(); // ปิดการเชื่อมต่อฐานข้อมูล
 
                 // เพิ่ม Topping ลงในรายการ
                 $_SESSION['cart'][$key]['toppings'][] = [
@@ -58,7 +53,7 @@ if (isset($_GET['action']) && isset($_GET['key'])) {
                 ];
             }
 
-            break; // เมื่อพบสินค้าตรงตามที่ต้องการแล้ว ให้หยุดการวนลูป
+            break;
         }
     }
 
