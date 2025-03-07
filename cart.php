@@ -119,10 +119,12 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
                         <!-- Dropdown เลือก Topping สำหรับแต่ละแก้ว -->
                         <form action="update_cart.php" method="POST">
-                            <input type="hidden" name="key" value="<?= $key ?>">
-                            <select name="topping">
+                            <input type="hidden" name="key" value="<?= $key ?>"> <!-- key ของสินค้า -->
+                            <label for="topping">เลือก Topping สำหรับแก้วนี้:</label>
+                            <select name="topping" required> <!-- เพิ่ม 'required' เพื่อจำกัดการเลือก Topping ได้แค่ 1 ตัว -->
                                 <option value="">-- เพิ่ม Topping --</option>
                                 <?php
+                                // ดึงข้อมูล Topping สำหรับสินค้าแต่ละประเภท
                                 $sql = "SELECT * FROM topping WHERE MenuID = ?";
                                 $stmt = $conn->prepare($sql);
                                 $stmt->bind_param("s", $item['menu_id']);
@@ -135,6 +137,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                             </select>
                             <button type="submit">เพิ่ม</button>
                         </form>
+
 
                         <hr>
                         <?php $counter++; ?>
