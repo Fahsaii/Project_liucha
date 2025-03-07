@@ -53,6 +53,11 @@ if (isset($_POST['key']) && isset($_POST['topping']) && !empty($_POST['topping']
     $topping = $result->fetch_assoc();
 
     if ($topping) {
+        // ตรวจสอบให้แน่ใจว่า 'toppings' เป็นอาร์เรย์ก่อนการเพิ่ม
+        if (!isset($_SESSION['cart'][$key]['toppings']) || !is_array($_SESSION['cart'][$key]['toppings'])) {
+            $_SESSION['cart'][$key]['toppings'] = []; // สร้างเป็นอาร์เรย์ถ้ายังไม่มี
+        }
+
         // เพิ่ม Topping ในสินค้าในตะกร้า
         $_SESSION['cart'][$key]['toppings'][] = [
             'name' => $topping['Name'],

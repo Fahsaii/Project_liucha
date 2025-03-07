@@ -1,26 +1,28 @@
 <?php
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $menu_id = $_POST['menu_id']; // รับ menu_id จากฟอร์ม
-    $topping_name = $_POST['topping_name']; // รับชื่อ Topping ที่จะลบ
-
-    // เช็คว่า ตะกร้า มีสินค้าอยู่หรือไม่
-    if (isset($_SESSION['cart'])) {
-        foreach ($_SESSION['cart'] as $key => $item) {
-            if ($item['menu_id'] == $menu_id) {
-                // ลบ Topping ออกจากสินค้า
-                foreach ($_SESSION['cart'][$key]['toppings'] as $index => $topping) {
-                    if ($topping['name'] == $topping_name) {
-                        unset($_SESSION['cart'][$key]['toppings'][$index]);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    // ส่งข้อมูลกลับไป
-    echo json_encode(["status" => "success"]);
+// เชื่อมต่อฐานข้อมูล
+$conn = new mysqli("localhost", "root", "", "liucha");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
+
+// ตรวจสอบว่ามีข้อมูลที่ต้องลบ
+if (isset($_GET['key']) && isset($_GET['topping_key'])) {
+    $key = $_GET['key'];  // หาคีย์ของสินค้าที่ต้องการลบ
+    $topping_key = $_GET['topping_key']; // หาคีย์ของ Topping ที่จะลบ
+
+    // ตรวจสอบว่ามีสินค้าตามคีย์หรือไม่
+    if (isset($_SESSION['cart'][$key]) && isset($_SESSION['cart'][$key]['toppings'][$topping_key])) {
+        // ลบ Topping ที่เลือก
+        unset($_SESSION['cart'][$key]['toppings'][$topping_key]);
+
+        // รีเซ็ต array ของ toppings เพื่อให้เป็นอาร์เรย์เรียบร้อย
+        $_SESSION['cart'][$key]['toppings'] = array_values($_SESSION['cart'][$key]['toppings']);
+    }
+}
+
+// รีไดเรกไปยังหน้าตะกร้าสินค้า
+header("Location: cart.php");
+exit();
 ?>
