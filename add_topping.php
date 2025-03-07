@@ -1,72 +1,65 @@
-<?php 
-session_start();
+<?php if (!empty($cart)): ?>
+    <?php 
+    // ตัวแปรสำหรับติดตาม Topping ที่แสดงแล้วในตะกร้า
+    $displayed_topping = [];
+    ?>
+    <?php foreach ($cart as $key => $item): ?>
+        <?php 
+        $subtotal = $item['price'] * $item['quantity'];
+        $topping_total = 0;
 
-// เชื่อมต่อฐานข้อมูล
-$conn = new mysqli("localhost", "root", "", "liucha");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// ตรวจสอบการเพิ่มหรือลดจำนวน
-if (isset($_GET['action']) && isset($_GET['key'])) {
-    $action = $_GET['action'];
-    $key = $_GET['key'];
-
-    // ตรวจสอบว่ามีสินค้าในตะกร้าหรือไม่
-    if (isset($_SESSION['cart'][$key])) {
-        // หากเพิ่มจำนวน
-        if ($action === 'increase') {
-            $_SESSION['cart'][$key]['quantity'] += 1;
-        }
-        // หากลดจำนวน
-        if ($action === 'decrease' && $_SESSION['cart'][$key]['quantity'] > 1) {
-            $_SESSION['cart'][$key]['quantity'] -= 1;
-        }
-    }
-}
-
-// อัปเดตตะกร้าเมื่อเพิ่มหรือลดจำนวนสินค้า
-if (isset($_POST['menu_id']) && isset($_POST['quantity'])) {
-    $menu_id = $_POST['menu_id'];
-    $quantity = $_POST['quantity'];
-
-    // ตรวจสอบการเพิ่มจำนวนของสินค้า
-    foreach ($_SESSION['cart'] as $key => $item) {
-        if ($item['menu_id'] == $menu_id) {
-            $_SESSION['cart'][$key]['quantity'] = $quantity;
-            break;
-        }
-    }
-}
-
-// ตรวจสอบการเพิ่ม Topping
-if (isset($_POST['key']) && isset($_POST['topping']) && !empty($_POST['topping'])) {
-    $key = $_POST['key']; // ใช้ key ของสินค้าที่ต้องการเพิ่ม Topping
-    $topping_id = $_POST['topping'];
-
-    // ดึงข้อมูล Topping จากฐานข้อมูล
-    $sql = "SELECT * FROM topping WHERE ToppingID = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $topping_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $topping = $result->fetch_assoc();
-
-    if ($topping) {
-        // ตรวจสอบให้แน่ใจว่า 'toppings' เป็นอาร์เรย์ก่อนการเพิ่ม
-        if (!isset($_SESSION['cart'][$key]['toppings']) || !is_array($_SESSION['cart'][$key]['toppings'])) {
-            $_SESSION['cart'][$key]['toppings'] = []; // สร้างเป็นอาร์เรย์ถ้ายังไม่มี
+        // คำนวณราคา Topping สำหรับแก้วนั้น ๆ
+        if (!empty($item['toppings'])) {
+            foreach ($item['toppings'] as $topping) {
+                $topping_total += $topping['price']; // รวมราคาของ Topping
+            }
         }
 
-        // เพิ่ม Topping ในสินค้าในตะกร้า
-        $_SESSION['cart'][$key]['toppings'][] = [
-            'name' => $topping['Name'],
-            'price' => $topping['Price']
-        ];
-    }
-}
+        $total_price = $subtotal + $topping_total; // ราคารวม (รวม Topping)
+        ?>
+        <tr>
+            <td><img src="image/<?= urlencode(htmlspecialchars($item['image'])) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="product-img"></td>
+            <td><?= htmlspecialchars($item['name']) ?></td>
+            <td><?= number_format($item['price'], 2) ?> บาท</td>
+            <td>
+                <a href="update_cart.php?action=decrease&key=<?= $key ?>"> - </a>
+                <?= $item['quantity'] ?>
+                <a href="update_cart.php?action=increase&key=<?= $key ?>"> + </a>
+            </td>
+            <td><?= number_format($total_price, 2) ?> บาท</td>
+            <td>
+                <a href="remove_item.php?key=<?= $key ?>" style="color:red;">ลบ</a>
+            </td>
+        </tr>
 
-// รีไดเรกไปที่หน้าตะกร้า
-header("Location: cart.php");
-exit();
-?>
+        <!-- แสดง Topping เฉพาะสำหรับแก้วที่มีการเลือก Topping และแสดงแค่ 1 ครั้ง -->
+        <?php if (!empty($item['toppings'])): ?>
+            <tr>
+                <td colspan="6">
+                    <strong>Topping สำหรับแก้วที่ <?= $item['quantity'] ?>:</strong>
+                    <ul>
+                        <?php foreach ($item['toppings'] as $topping): ?>
+                            <?php 
+                            // เช็คว่า Topping นี้แสดงในตะกร้าแล้วหรือไม่
+                            if (!in_array($topping['id'], $displayed_topping)): ?>
+                                <li>
+                                    + <?= htmlspecialchars($topping['name']) ?> (<?= number_format($topping['price'], 2) ?> บาท)
+                                    <a href="remove_topping.php?key=<?= $key ?>&topping_key=<?= $topping['id'] ?>" style="color:red;">ลบ</a>
+                                </li>
+                                <?php 
+                                // เก็บ Topping นี้ลงในตัวแปรเพื่อไม่ให้แสดงซ้ำ
+                                $displayed_topping[] = $topping['id'];
+                            endif;
+                            ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </td>
+            </tr>
+        <?php endif; ?>
+
+    <?php endforeach; ?>
+<?php else: ?>
+    <tr>
+        <td colspan="6" style="text-align:center;">ไม่มีสินค้าในตะกร้า</td>
+    </tr>
+<?php endif; ?>

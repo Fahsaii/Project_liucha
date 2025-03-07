@@ -50,7 +50,7 @@ if (isset($_POST['key']) && isset($_POST['topping'])) {
     $stmt->bind_param("s", $topping_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     // ถ้ามีข้อมูล Topping
     if ($row = $result->fetch_assoc()) {
         $topping = [
@@ -59,23 +59,13 @@ if (isset($_POST['key']) && isset($_POST['topping'])) {
             'price' => $row['Price']
         ];
 
-        // เพิ่ม Topping ลงในสินค้าที่เลือก
+        // เช็คว่าใน session มีตะกร้านี้อยู่หรือไม่
         if (!isset($_SESSION['cart'][$key]['toppings'])) {
             $_SESSION['cart'][$key]['toppings'] = [];
         }
-        
-        // เช็คว่า Topping นี้ถูกเพิ่มไปแล้วหรือไม่
-        $found = false;
-        foreach ($_SESSION['cart'][$key]['toppings'] as $existingTopping) {
-            if ($existingTopping['id'] == $topping['id']) {
-                $found = true;
-                break;
-            }
-        }
 
-        if (!$found) {
-            $_SESSION['cart'][$key]['toppings'][] = $topping;
-        }
+        // เพิ่ม Topping ที่เลือกให้กับแก้วนั้น
+        $_SESSION['cart'][$key]['toppings'][] = $topping;
     }
 }
 
