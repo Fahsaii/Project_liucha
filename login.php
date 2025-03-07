@@ -7,26 +7,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     try {
-      
+        // ตรวจสอบว่าเป็น Admin หรือไม่
         $stmt = $conn->prepare("SELECT * FROM admin WHERE Name = :username");
         $stmt->execute(['username' => $username]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($admin && $password === $admin['Password']) {
-            session_regenerate_id(true); 
-            $_SESSION['user'] = $admin['Name']; 
+            session_regenerate_id(true); // ป้องกัน session fixation
+            $_SESSION['user'] = $admin['Name']; // เพิ่ม Name ให้ไม่เป็นค่าว่าง
             $_SESSION['role'] = 'admin';
             header("Location: index.php");
             exit();
         }
 
+        // ตรวจสอบว่าเป็นลูกค้าหรือไม่
         $stmt = $conn->prepare("SELECT * FROM customer WHERE Name = :username");
         $stmt->execute(['username' => $username]);
         $customer = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($customer && $password === $customer['Password']) {
             session_regenerate_id(true);
-            $_SESSION['user'] = $customer['Name']; 
+            $_SESSION['user'] = $customer['Name']; // เพิ่ม Name ให้ไม่เป็นค่าว่าง
             $_SESSION['role'] = 'customer';
             header("Location: index.php");
             exit();
