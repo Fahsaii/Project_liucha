@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "liucha"; 
+$database = "liucha"; // ชื่อฐานข้อมูล
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);
