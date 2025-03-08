@@ -23,7 +23,7 @@ if (!$result) {
     die("Query failed: " . $conn->error);
 }
 $sql_topping = "SELECT ToppingID AS id, Name AS name, Price AS price, imageTopping AS image FROM topping";
-$result_topping = $conn->query($sql_topping);
+//$result_topping = $conn->query($sql_topping);
 
 // ตรวจสอบว่าเป็นผู้ดูแลระบบหรือไม่
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';

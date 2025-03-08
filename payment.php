@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-$cart = $_SESSION['cart'] ?? []; 
-$shipping = 35; 
+$cart = $_SESSION['cart'] ?? []; // ดึงข้อมูลตะกร้า
+$shipping = 35; // ค่าจัดส่ง
 $total = 0;
 ?>
 
@@ -17,7 +17,7 @@ $total = 0;
 </head>
 <body>
 
-
+<!-- Bubble tea decoration -->
     <div class="bubble-tea"></div>
     <div class="bubble-tea"></div>
     <div class="bubble-tea"></div>
@@ -45,36 +45,39 @@ $total = 0;
                         <button type="button" onclick="selectPaymentMethod('เงินสด')">เงินสด</button>
                     </div>
 
-                   
+                    <!-- ส่วนแสดง QR Promptpay และอัพโหลดสลิป -->
                     <div id="qrPromptpaySection" style="display: block;">
-                        <img src="your-qr-code-image-url.jpg" alt="QR Promptpay" id="qrImage">
+                        <img src="image/QRCODE1.png" alt="QR Promptpay">
+                        
                         <input type="file" name="slip" id="slipUpload" accept="image/*">
                     </div>
 
+                    <!-- ส่วนแสดงข้อความชำระเงินสด -->
                     <div id="cashPaymentSection" style="display: none;">
                         <p>กรุณาชำระเงินสด</p>
                     </div>
 
                     <button type="button" class="checkout" onclick="submitForm()">ยืนยันการสั่งซื้อ</button>
-                   
+                    <!-- ปุ่มยกเลิกคำสั่งซื้อ -->
                     <button type="button" class="cancel" onclick="cancelOrder()">ยกเลิกคำสั่งซื้อ</button>
                 </form>
             </div>
 
             <script>
                 function selectPaymentMethod(method) {
-                   
+                    // ซ่อนทั้งสองส่วนก่อน
                     document.getElementById('qrPromptpaySection').style.display = 'none';
                     document.getElementById('cashPaymentSection').style.display = 'none';
 
+                    // ลบคลาส active ออกจากทุกปุ่ม
                     const buttons = document.querySelectorAll('.payment-method button');
                     buttons.forEach(button => button.classList.remove('active'));
 
-                  
+                    // เพิ่มคลาส active ให้กับปุ่มที่เลือก
                     const selectedButton = Array.from(buttons).find(button => button.textContent === method);
                     selectedButton.classList.add('active');
 
-    
+                    // แสดงส่วนที่เกี่ยวข้องกับการเลือก
                     if (method === 'QR Promptpay') {
                         document.getElementById('qrPromptpaySection').style.display = 'block';
                     } else if (method === 'เงินสด') {
@@ -83,26 +86,25 @@ $total = 0;
                 }
 
                 function submitForm() {
-                
+                    // เพิ่มการทำงานที่ต้องการเมื่อคลิกปุ่มยืนยัน
                     const form = document.getElementById('paymentForm');
-                  
+                    
+                    // ตัวอย่างการทำงาน - แสดงข้อความว่าได้รับข้อมูล
                     alert('ข้อมูลการชำระเงินได้รับแล้ว!');
                     
-                 
+                    // ที่นี่คุณสามารถใช้ Ajax หรือการส่งข้อมูลฟอร์มในแบบไม่รีเฟรชหน้าก็ได้
+                    // form.submit(); // ใช้ถ้าต้องการส่งฟอร์มจริงๆ
                 }
 
                 function cancelOrder() {
-                
+                    // การทำงานเมื่อกดปุ่มยกเลิกคำสั่งซื้อ
                     const confirmCancel = confirm("คุณต้องการยกเลิกคำสั่งซื้อหรือไม่?");
                     if (confirmCancel) {
-                        window.location.href = "cart.php";
+                        window.location.href = "cart.php"; // เปลี่ยนเป็นหน้าตะกร้าสินค้าหรือหน้าหลักที่ต้องการ
                     }
                 }
             </script>
-
-        </div>
-
-        <div class="order-summary">
+            <div class="order-summary">
             <h2>สรุปคำสั่งซื้อ</h2>
             <?php if (!empty($cart)): ?>
                 <?php foreach ($cart as $item): ?>
@@ -130,9 +132,12 @@ $total = 0;
             <hr>
             <h3>ยอดรวมทั้งหมด: <?= number_format($total + $shipping, 2) ?> บาท</h3>
 
-          
+            <!-- ปุ่มยกเลิกคำสั่งซื้อที่อยู่ในส่วนสรุปคำสั่งซื้อ -->
             <button type="button" class="cancel" onclick="cancelOrder()">ยกเลิกคำสั่งซื้อ</button>
         </div>
 
+        </div>
+
+        
 </body>
 </html>
