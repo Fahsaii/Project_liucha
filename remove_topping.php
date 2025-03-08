@@ -1,12 +1,10 @@
 <?php
 session_start();
 
-
 $conn = new mysqli("localhost", "root", "", "liucha");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 
 if (isset($_GET['key']) && isset($_GET['topping_key'])) {
     $key = $_GET['key']; 
@@ -21,7 +19,6 @@ if (isset($_GET['key']) && isset($_GET['topping_key'])) {
         $_SESSION['cart'][$key]['toppings'] = array_values($_SESSION['cart'][$key]['toppings']);
     }
 }
-
 
 header("Location: cart.php");
 exit();
