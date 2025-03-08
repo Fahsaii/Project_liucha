@@ -1,16 +1,16 @@
 <?php
 session_start();
 
-// เชื่อมต่อฐานข้อมูล
+
 $conn = new mysqli("localhost", "root", "", "liucha");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// ดึงข้อมูลตะกร้าสินค้า
+
 $cart = $_SESSION['cart'] ?? [];
 
-// คำนวณราคารวมทั้งหมด
+
 $total = 0;
 if (!empty($cart)) {
     foreach ($cart as $item) {

@@ -20,16 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($password !== $confirmPassword) {
         $error = "รหัสผ่านและการยืนยันรหัสผ่านไม่ตรงกัน";
     } else {
-        // ✅ บันทึกรหัสผ่านตรงๆ โดยไม่มีการเข้ารหัส
+       
         $plain_password = $password;
 
-        // หารหัสลูกค้าถัดไป
+        
         $result = $conn->query("SELECT MAX(CAST(SUBSTRING(CustomerID, 2) AS UNSIGNED)) AS max_id FROM customer");
         $row = $result->fetch_assoc();
         $max_id = $row['max_id'];
         $new_customer_id = 'C' . str_pad(($max_id + 1), 3, '0', STR_PAD_LEFT);
 
-        // ✅ บันทึกข้อมูลลงฐานข้อมูล
         $sql = "INSERT INTO customer (CustomerID, Name, Password, Phone, Email) 
                 VALUES ('$new_customer_id', '$name', '$plain_password', '$phone', '$email')";
 

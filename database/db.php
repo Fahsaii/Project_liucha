@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "liucha"; // ตรวจสอบว่าชื่อฐานข้อมูลถูกต้อง
+$database = "liucha"; 
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);

@@ -8,14 +8,14 @@
         $subtotal = $item['price'] * $item['quantity'];
         $topping_total = 0;
 
-        // คำนวณราคา Topping สำหรับแก้วนั้น ๆ
+      
         if (!empty($item['toppings'])) {
             foreach ($item['toppings'] as $topping) {
-                $topping_total += $topping['price']; // รวมราคาของ Topping
+                $topping_total += $topping['price']; 
             }
         }
 
-        $total_price = $subtotal + $topping_total; // ราคารวม (รวม Topping)
+        $total_price = $subtotal + $topping_total; 
         ?>
         <tr>
             <td><img src="image/<?= urlencode(htmlspecialchars($item['image'])) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="product-img"></td>
@@ -32,7 +32,7 @@
             </td>
         </tr>
 
-        <!-- แสดง Topping เฉพาะสำหรับแก้วที่มีการเลือก Topping และแสดงแค่ 1 ครั้ง -->
+        
         <?php if (!empty($item['toppings'])): ?>
             <tr>
                 <td colspan="6">
@@ -40,14 +40,14 @@
                     <ul>
                         <?php foreach ($item['toppings'] as $topping): ?>
                             <?php 
-                            // เช็คว่า Topping นี้แสดงในตะกร้าแล้วหรือไม่
+                            
                             if (!in_array($topping['id'], $displayed_topping)): ?>
                                 <li>
                                     + <?= htmlspecialchars($topping['name']) ?> (<?= number_format($topping['price'], 2) ?> บาท)
                                     <a href="remove_topping.php?key=<?= $key ?>&topping_key=<?= $topping['id'] ?>" style="color:red;">ลบ</a>
                                 </li>
                                 <?php 
-                                // เก็บ Topping นี้ลงในตัวแปรเพื่อไม่ให้แสดงซ้ำ
+                                
                                 $displayed_topping[] = $topping['id'];
                             endif;
                             ?>

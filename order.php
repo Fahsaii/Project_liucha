@@ -1,14 +1,14 @@
 <?php
 session_start();
 include('database/db.php');
-// เช็คว่ามีสินค้าตะกร้าหรือไม่
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $address = $_POST['address'];
     $phone = $_POST['phone'];
     $email = isset($_POST['email']) ? $_POST['email'] : '';
 
-    // ตรวจสอบว่าสินค้ามีอยู่ในตะกร้าหรือไม่
+   
     if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
         die("ไม่มีสินค้าในตะกร้า");
     }
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <section class="order-form">
         <h2>กรอกข้อมูลการสั่งซื้อ</h2>
 
-        <!-- แสดงรายละเอียดสินค้าในตะกร้า -->
+        
         <h3>สินค้าที่เลือก:</h3>
         <table>
             <thead>
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </tbody>
         </table>
 
-        <!-- ฟอร์มกรอกข้อมูล -->
+        
         <form action="process_order.php" method="POST">
             <div class="form-group">
                 <label for="name">ชื่อ-นามสกุล:</label>

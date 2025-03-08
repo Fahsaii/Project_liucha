@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     try {
-        // ตรวจสอบว่าเป็น Admin หรือไม่
+        
         $stmt = $conn->prepare("SELECT * FROM admin WHERE Name = :username");
         $stmt->execute(['username' => $username]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -108,7 +108,7 @@ input, select, button {
     color: #444;
 }
 
-/* Bubble tea */
+
 @keyframes bubble-fall {
     0% { transform: translateY(-150px) rotate(0deg); opacity: 0; }
     100% { transform: translateY(100vh) rotate(360deg); opacity: 1; }

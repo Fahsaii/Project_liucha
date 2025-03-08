@@ -76,7 +76,7 @@ $isLoggedIn = isset($_SESSION['user']);
 
 
     <div class="hero">
-        <!-- <h1>Liu Cha</h1> -->
+     
     </div>
 
     <h2 id="MilkTea" class="section-title">🥤 เมนูเครื่องดื่ม 🥤</h2>
@@ -93,10 +93,10 @@ $isLoggedIn = isset($_SESSION['user']);
                     <p class="price"><?= $row['price'] ?> บาท</p>
 
                     <?php if (!isset($_SESSION['user'])): ?>
-                        <!-- If the user is not logged in, show a message and disable the button -->
+                        
                         <button type="button" class="add-btn" onclick="alert('กรุณาล็อกอินก่อนเพิ่มสินค้า!')">เพิ่ม</button>
                     <?php else: ?>
-                        <!-- If the user is logged in, show the regular Add button -->
+                       
                         <button type="submit" class="add-btn">เพิ่ม</button>
                     <?php endif; ?>
                 </form>

@@ -5,7 +5,7 @@ body {
     padding: 0;
 }
 
-/* สไตล์สำหรับฟอร์ม Login */
+
 .login-form {
     width: 100%;
     max-width: 400px;
@@ -57,14 +57,14 @@ body {
     background-color: #ff4500;
 }
 
-/* สำหรับข้อความข้อผิดพลาด */
+
 .login-form .error {
     color: red;
     font-size: 14px;
     margin-bottom: 15px;
 }
 
-/* สไตล์ของ Footer */
+
 footer {
     background-color: #333;
     color: white;
@@ -79,7 +79,7 @@ footer p {
     margin: 0;
 }
 
-/* สำหรับการตอบสนอง (Responsive) */
+
 @media (max-width: 480px) {
     .login-form {
         width: 90%;

@@ -13,21 +13,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['cart'] = [];
         }
 
-        // Check if product is already in the cart
+        
         $found = false;
         foreach ($_SESSION['cart'] as &$item) {
             if ($item['name'] === $name && $item['menu_id'] === $menu_id) {
                 $item['quantity'] += 1;
-                // Add selected toppings to the product in cart
+               
                 $item['toppings'] = array_merge($item['toppings'], $toppings);
-                // Remove duplicates from toppings
+               
                 $item['toppings'] = array_unique($item['toppings']);
                 $found = true;
                 break;
             }
         }
 
-        // If product not found, add new product to cart
+       
         if (!$found) {
             $_SESSION['cart'][] = [
                 'name' => $name,

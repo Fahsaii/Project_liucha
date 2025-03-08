@@ -75,7 +75,7 @@ nav ul li a:hover {
     color: #d48872;
 }
 
-/* BANNER */
+
 .hero {
     width: 100%;
     height: 500px;
@@ -114,7 +114,7 @@ nav ul li a:hover {
     background: #c0725a;
 }
 
-/* FOOTER */
+
 footer {
     text-align: center;
     padding: 15px;
@@ -124,7 +124,7 @@ footer {
     color: #d48872;
 }
 
-/* PRODUCT GRID */
+
 .product-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -149,7 +149,7 @@ footer {
 
 .product img {
     width: 100%;
-    height: 160px; /* หรือปรับตามที่ชอบ */
+    height: 160px; 
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -165,8 +165,8 @@ footer {
 }
 
 .menunew-item {
-    width: 350px; /* จาก 300px เป็น 350px */
-    height: 450px; /* จาก 400px เป็น 450px */
+    width: 350px; 
+    height: 450px; 
     overflow: hidden;
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -193,27 +193,27 @@ footer {
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     letter-spacing: 2px;
-    display: block; /* ให้มัน block เต็มบรรทัด */
-    width: fit-content; /* กว้างพอดีกับข้อความ */
-    text-align: center; /* ข้อความอยู่กลาง */
-    margin-left: auto; /* ดันไปกลาง */
-    margin-right: auto; /* ดันไปกลาง */
+    display: block; 
+    width: fit-content; 
+    text-align: center;
+    margin-left: auto; 
+    margin-right: auto; 
 }
 
 #contact {
     background-color: #fff8f2;
-    padding: 40px 30px; /* เพิ่ม padding ขึ้นนิดหน่อย */
-    margin-top: 50px; /* เว้นระยะจากด้านบน */
+    padding: 40px 30px; 
+    margin-top: 50px; 
     text-align: center;
     border-radius: 20px;
-    max-width: 900px; /* ให้ยาวขึ้น */
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 #contact h2 {
-    font-size: 28px; /* ขยายหัวข้อ */
+    font-size: 28px; 
     color: #d48872;
     margin-bottom: 25px;
     font-weight: 400;
@@ -221,9 +221,9 @@ footer {
 
 .contact-wrapper {
     display: flex;
-    justify-content: space-between; /* กระจายซ้าย-ขวา */
+    justify-content: space-between; 
     align-items: center;
-    gap: 30px; /* เพิ่มช่องว่าง */
+    gap: 30px; 
     flex-wrap: wrap;
 }
 
@@ -233,22 +233,22 @@ footer {
 }
 
 .contact-info p {
-    font-size: 18px; /* ขยายตัวอักษร */
+    font-size: 18px; 
     margin: 8px 0;
     color: #333;
 }
 
 .contact-qr {
     text-align: center;
-    flex: 0 0 130px; /* กำหนดขนาดกล่อง QR */
+    flex: 0 0 130px; 
 }
 
 .contact-qr img {
-    width: 150px; /* ขยายจากเดิมเช่น 120px */
+    width: 150px;
     height: auto;
     margin-bottom: 10px;
-    border-radius: 12px; /* มุมโค้งน่ารัก ๆ */
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* ใส่เงาเบา ๆ */
+    border-radius: 12px; 
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); 
 }
 
 
