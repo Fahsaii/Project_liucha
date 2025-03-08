@@ -22,6 +22,8 @@ $result = $conn->query($sql);
 if (!$result) {
     die("Query failed: " . $conn->error);
 }
+$sql_topping = "SELECT ToppingID AS id, Name AS name, Price AS price, imageTopping AS image FROM topping";
+$result_topping = $conn->query($sql_topping);
 
 // ตรวจสอบว่าเป็นผู้ดูแลระบบหรือไม่
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
@@ -101,6 +103,30 @@ $isLoggedIn = isset($_SESSION['user']);
             </div>
         <?php endwhile; ?>
     </div>
+
+    <h2 id="MilkTea" class="section-title"> TOPPING! 🍡</h2>
+
+    <div id="topping" class="product-container">
+        <?php while ($row = $result_topping->fetch_assoc()): ?>
+            <div class="product">
+                <form action="add_to_cart.php" method="post">
+                    <input type="hidden" name="product_name" value="<?= htmlspecialchars($row['name']) ?>">
+                    <input type="hidden" name="price" value="<?= $row['price'] ?>">
+                    <img src="image/<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="product-img">
+                    <input type="hidden" name="image" value="<?= htmlspecialchars($row['image']) ?>">
+                    <h3><?= htmlspecialchars($row['name']) ?></h3>
+                    <p class="price"><?= $row['price'] ?> บาท</p>
+
+                    <?php if (!isset($_SESSION['user'])): ?>
+                        <button type="button" class="add-btn" onclick="alert('กรุณาล็อกอินก่อนเพิ่มสินค้า!')">เพิ่ม</button>
+                    <?php else: ?>
+                        <button type="submit" class="add-btn">เพิ่ม</button>
+                    <?php endif; ?>
+                </form>
+            </div>
+        <?php endwhile; ?>
+    </div>
+
 
 
     <div class="menunew-title">
