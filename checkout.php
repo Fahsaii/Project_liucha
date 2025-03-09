@@ -2,6 +2,17 @@
 session_start();
 include 'database/db.php'; // ไฟล์เชื่อมต่อฐานข้อมูล
 
+// ตรวจสอบว่ามีการล็อกอินหรือไม่ และดึง CustomerID
+session_start();
+if (!isset($_SESSION['CustomerID'])) {
+    echo "Debug: SESSION ไม่พบค่า CustomerID<br>";
+    print_r($_SESSION); // แสดงค่าทั้งหมด
+    die("เกิดข้อผิดพลาด: ไม่พบข้อมูลลูกค้า กรุณาล็อกอินใหม่");
+}
+
+
+$customer_id = $_SESSION['CustomerID'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // รับค่าจากฟอร์ม
     $ordersname = $_POST['name'];
@@ -36,12 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     $new_order_id = $row['max_order_id'] ? $row['max_order_id'] + 1 : 1;
 
-    // บันทึกข้อมูลลงฐานข้อมูล
-    $sql = "INSERT INTO orders (ordersID, ordersname, tel, address, payment_method, total_price, slip_image) 
-            VALUES (:ordersID, :ordersname, :tel, :address, :payment_method, :total_price, :slip_image)";
+    // บันทึกข้อมูลลงฐานข้อมูล (เพิ่ม CustomerID)
+    $sql = "INSERT INTO orders (ordersID, CustomerID, ordersname, tel, address, payment_method, total_price, slip_image) 
+            VALUES (:ordersID, :CustomerID, :ordersname, :tel, :address, :payment_method, :total_price, :slip_image)";
 
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(':ordersID', $new_order_id);
+    $stmt->bindValue(':CustomerID', $customer_id);
     $stmt->bindValue(':ordersname', $ordersname);
     $stmt->bindValue(':tel', $tel);
     $stmt->bindValue(':address', $address);

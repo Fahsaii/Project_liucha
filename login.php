@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_regenerate_id(true);
             $_SESSION['user'] = $customer['Name']; 
             $_SESSION['role'] = 'customer';
+            $_SESSION['CustomerID'] = $customer['CustomerID'];
             header("Location: index.php");
             exit();
         }
