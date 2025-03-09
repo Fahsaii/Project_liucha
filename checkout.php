@@ -1,52 +1,62 @@
-<?php
+<?php 
 session_start();
 include 'database/db.php'; // ไฟล์เชื่อมต่อฐานข้อมูล
 
-// ตรวจสอบว่าได้รับข้อมูลจากฟอร์มแล้ว
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // รับค่าจากฟอร์ม
     $ordersname = $_POST['name'];
     $tel = $_POST['tel'];
-    $address = $_POST['address1'] . ' ' . $_POST['address3']; // รวมที่อยู่
-    $payment_method = $_POST['payment_method'] ?? 'ไม่ระบุ'; // ช่องทางการชำระเงิน
-    $total_price = $_POST['total_price'] ?? 0; // ราคา
+    $address = $_POST['address1'] . ' ' . $_POST['address3'];
+    $payment_method = $_POST['payment_method'] ?? 'ไม่ระบุ';
+    $total_price = floatval($_POST['total_price'] ?? 0); // ใช้ค่าจากฟอร์ม
 
-    // ดึงค่าของ ordersID ล่าสุดจากฐานข้อมูล
+    // ตรวจสอบว่ามีการอัปโหลดไฟล์หรือไม่
+    $slip_image = NULL;
+    if ($payment_method == "QR Promptpay" && isset($_FILES['slip']) && $_FILES['slip']['error'] == 0) {
+        $target_dir = "uploads/";
+
+        // ตรวจสอบว่ามีโฟลเดอร์ uploads หรือไม่ ถ้าไม่มีให้สร้าง
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+
+        // ตั้งชื่อไฟล์โดยใช้ timestamp + ชื่อไฟล์เดิม
+        $slip_image = $target_dir . time() . "_" . basename($_FILES["slip"]["name"]);
+        
+        // ย้ายไฟล์ไปที่โฟลเดอร์ uploads
+        if (!move_uploaded_file($_FILES["slip"]["tmp_name"], $slip_image)) {
+            die("เกิดข้อผิดพลาดในการอัปโหลดไฟล์");
+        }
+    }
+
+    // ดึง ordersID ล่าสุดจากฐานข้อมูล
     $sql = "SELECT MAX(ordersID) AS max_order_id FROM orders";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // ตรวจสอบว่า ordersID ล่าสุดเป็น NULL หรือไม่ ถ้าเป็น NULL ให้เริ่มต้นที่ 1
     $new_order_id = $row['max_order_id'] ? $row['max_order_id'] + 1 : 1;
 
-    // เตรียมคำสั่ง SQL เพื่อเพิ่มข้อมูล
-    $sql = "INSERT INTO orders (ordersID, ordersname, tel, address, payment_method, total_price) 
-            VALUES (:ordersID, :ordersname, :tel, :address, :payment_method, :total_price)";
+    // บันทึกข้อมูลลงฐานข้อมูล
+    $sql = "INSERT INTO orders (ordersID, ordersname, tel, address, payment_method, total_price, slip_image) 
+            VALUES (:ordersID, :ordersname, :tel, :address, :payment_method, :total_price, :slip_image)";
 
-    // เตรียมคำสั่ง SQL
     $stmt = $conn->prepare($sql);
-
-    // ผูกค่าพารามิเตอร์กับคำสั่ง SQL
     $stmt->bindValue(':ordersID', $new_order_id);
     $stmt->bindValue(':ordersname', $ordersname);
     $stmt->bindValue(':tel', $tel);
     $stmt->bindValue(':address', $address);
     $stmt->bindValue(':payment_method', $payment_method);
-    $stmt->bindValue(':total_price', $total_price);
+    $stmt->bindValue(':total_price', $total_price); // ใช้ค่า total_price ที่ถูกต้อง
+    $stmt->bindValue(':slip_image', $slip_image);
 
-    // ตรวจสอบการทำงานของคำสั่ง SQL
     if ($stmt->execute()) {
-        // การบันทึกข้อมูลสำเร็จ
-        // ใช้ header() เพื่อทำการ redirect ไปยังหน้าที่ต้องการ (success.php หรือหน้าที่คุณต้องการ)
         header("Location: index.php"); 
-        exit; // สิ้นสุดสคริปต์หลังจาก redirect
+        exit();
     } else {
         echo "Error: " . $stmt->errorInfo()[2];
     }
 
-    // ปิดการเชื่อมต่อฐานข้อมูล
     $stmt->closeCursor();
-    $conn = null; // ปิดการเชื่อมต่อ
+    $conn = null;
 }
 ?>
