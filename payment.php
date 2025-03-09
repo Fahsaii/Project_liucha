@@ -58,6 +58,7 @@ $grand_total = $total + $shipping;
 
             <!-- อัปโหลด QR Promptpay -->
             <div id="qrPromptpaySection">
+                <img src="image/QRCODE.png" alt="QR Promptpay"><br/>
                 <label>อัปโหลดสลิป:</label>
                 <input type="file" name="slip" accept="image/*">
             </div>
