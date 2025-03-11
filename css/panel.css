@@ -72,10 +72,12 @@ button {
     background-color: #d48872;
     color: white;
     border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
+    margin: 4px;
+    /* เพิ่มระยะห่างรอบปุ่ม */
 }
 
 button:hover {
